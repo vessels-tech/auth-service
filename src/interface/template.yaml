@@ -326,6 +326,8 @@ paths:
         - thirdPartyRequests
       operationId: VerifyThirdPartyAuthorization
       parameters:
+        #Path
+        - $ref: '#/components/parameters/ID'
         #Headers
         - $ref: '#/components/parameters/Accept'
         - $ref: '#/components/parameters/Content-Length'
@@ -530,6 +532,19 @@ components:
       required:
         - scope
         - accountId
+
+    ThirdPartyAuthorizationRequest:
+      title: ThirdPartyAuthorizationRequest
+      type: object
+      description: The Request object for verifying an authorization
+      # TODO: finish me!!!
+      properties:
+        challenge: 
+          type: string
+          description: The original Challenge Object as a JSON string
+      required:
+        - challenge
+        
 
     # Mojaloop common schemas
     Amount:
