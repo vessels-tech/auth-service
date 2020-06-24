@@ -42,4 +42,9 @@ docker-compose up -d mysql
 npm run start
 ```
 
+### Updating the OpenApi (Swagger) spec
+```bash
+
+./node_modules/.bin/multi-file-swagger -o yaml api.yaml > src/interface/test.json
+```
 
