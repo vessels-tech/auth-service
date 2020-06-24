@@ -552,6 +552,8 @@ components:
       required:
         - challenge
         
+    $ref: node_modules/api-snippets/v1.0/openapi3/schemas/index.yaml
+
 
     # Mojaloop common schemas
     Amount:

@@ -25,32 +25,32 @@
 import Inert from '@hapi/inert'
 import Vision from '@hapi/vision'
 import Blip from 'blipp'
-import { Server } from '@hapi/hapi'
+import { Server, Lifecycle } from '@hapi/hapi'
 
 import ErrorHandling from '@mojaloop/central-services-error-handling'
 import Shared from '@mojaloop/central-services-shared'
 import Good from './good'
 import Swagger from './swagger'
-import OpenAPI from './openAPI'
+import makeOpenApiBackend from './openAPIBackend'
 
-const plugins = [
-  Swagger,
-  Good,
-  OpenAPI,
-  Inert,
-  Vision,
-  Blip,
-  ErrorHandling,
-  Shared.Util.Hapi.HapiEventPlugin,
-  Shared.Util.Hapi.FSPIOPHeaderValidation
-]
+async function register (server: Server, handlers: {[index: string]: Lifecycle.Method}): Promise<Server> {
+  const plugins = [
+    Swagger,
+    Good,
+    await makeOpenApiBackend(handlers),
+    Inert,
+    Vision,
+    Blip,
+    ErrorHandling,
+    Shared.Util.Hapi.HapiEventPlugin,
+    Shared.Util.Hapi.FSPIOPHeaderValidation,
+    Shared.Util.Hapi.OpenapiBackendValidator,
+  ]
 
-async function register (server: Server): Promise<Server> {
   await server.register(plugins)
   return server
 }
 
 export default {
-  register,
-  plugins
+  register
 }
