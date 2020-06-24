@@ -1,5 +1,6 @@
 import * as health from './health'
 
 export default {
-  ...health
+  // Map from operationIds in ./swagger.json to our handlers
+  HealthGet: health.get
 }

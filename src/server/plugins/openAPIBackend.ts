@@ -4,7 +4,6 @@ import { Lifecycle } from '@hapi/hapi'
 
 const makeOpenApiBackend = async (handlers: { [index: string]: Lifecycle.Method }) => {
   const pathToSwagger = Path.resolve(__dirname, '../../interface/swagger.json')
-  console.log('HAPI is', Shared.Util.OpenapiBackend)
   const openapi = await Shared.Util.OpenapiBackend.initialise(pathToSwagger, handlers)
   return {
     plugin: {

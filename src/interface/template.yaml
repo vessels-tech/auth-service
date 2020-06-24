@@ -445,7 +445,6 @@ components:
             creation of this Consent
         participantId:
           $ref: '#/components/schemas/FspId'
-          description: FSP identifier who issued this Consent
         initiatorId:
           allOf:
             - $ref: '#/components/schemas/FspId'
@@ -551,180 +550,61 @@ components:
           description: The original Challenge Object as a JSON string
       required:
         - challenge
-        
-    $ref: node_modules/api-snippets/v1.0/openapi3/schemas/index.yaml
-
 
     # Mojaloop common schemas
-    Amount:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/Amount.yaml
-    AmountType:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/AmountType.yaml
-    AuthenticationInfo:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/AuthenticationInfo.yaml
-    AuthenticationType:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/AuthenticationType.yaml
-    AuthenticationValue:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/AuthenticationValue.yaml
-    AuthorizationResponse:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/AuthorizationResponse.yaml
-    AuthorizationsIDPutResponse:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/AuthorizationsIDPutResponse.yaml
-    BalanceOfPayments:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/BalanceOfPayments.yaml
     BinaryString:
       $ref: node_modules/api-snippets/v1.0/openapi3/schemas/BinaryString.yaml
     BinaryString32:
       $ref: node_modules/api-snippets/v1.0/openapi3/schemas/BinaryString32.yaml
-    BulkQuotesIDPutResponse:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/BulkQuotesIDPutResponse.yaml
-    BulkQuotesPostRequest:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/BulkQuotesPostRequest.yaml
-    BulkTransfersIDPutResponse:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/BulkTransfersIDPutResponse.yaml
-    BulkTransfersPostRequest:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/BulkTransfersPostRequest.yaml
-    BulkTransferState:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/BulkTransferState.yaml
-    Code:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/Code.yaml
     CorrelationId:
       $ref: node_modules/api-snippets/v1.0/openapi3/schemas/CorrelationId.yaml
-    Currency:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/Currency.yaml
     Date:
       $ref: node_modules/api-snippets/v1.0/openapi3/schemas/Date.yaml
-    DateOfBirth:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/DateOfBirth.yaml
     DateTime:
       $ref: node_modules/api-snippets/v1.0/openapi3/schemas/DateTime.yaml
     ErrorCode:
       $ref: node_modules/api-snippets/v1.0/openapi3/schemas/ErrorCode.yaml
     ErrorDescription:
       $ref: node_modules/api-snippets/v1.0/openapi3/schemas/ErrorDescription.yaml
-    ErrorInformation:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/ErrorInformation.yaml
     ErrorInformationObject:
       $ref: node_modules/api-snippets/v1.0/openapi3/schemas/ErrorInformationObject.yaml
     ErrorInformationResponse:
       $ref: node_modules/api-snippets/v1.0/openapi3/schemas/ErrorInformationResponse.yaml
-    Extension:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/Extension.yaml
     ExtensionKey:
       $ref: node_modules/api-snippets/v1.0/openapi3/schemas/ExtensionKey.yaml
     ExtensionList:
       $ref: node_modules/api-snippets/v1.0/openapi3/schemas/ExtensionList.yaml
     ExtensionValue:
       $ref: node_modules/api-snippets/v1.0/openapi3/schemas/ExtensionValue.yaml
-    FirstName:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/FirstName.yaml
     FspId:
       $ref: node_modules/api-snippets/v1.0/openapi3/schemas/FspId.yaml
-    GeoCode:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/GeoCode.yaml
-    IlpCondition:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/IlpCondition.yaml
-    IlpFulfilment:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/IlpFulfilment.yaml
-    IlpPacket:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/IlpPacket.yaml
-    IndividualQuote:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/IndividualQuote.yaml
-    IndividualQuoteResult:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/IndividualQuoteResult.yaml
-    IndividualTransfer:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/IndividualTransfer.yaml
-    IndividualTransferResult:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/IndividualTransferResult.yaml
-    Integer:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/Integer.yaml
-    LastName:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/LastName.yaml
-    Latitude:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/Latitude.yaml
-    Longitude:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/Longitude.yaml
-    MerchantClassificationCode:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/MerchantClassificationCode.yaml
-    MiddleName:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/MiddleName.yaml
-    Money:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/Money.yaml
-    Name:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/Name.yaml
-    Note:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/Note.yaml
-    OtpValue:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/OtpValue.yaml
-    ParticipantsIDPutResponse:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/ParticipantsIDPutResponse.yaml
-    ParticipantsPostRequest:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/ParticipantsPostRequest.yaml
-    ParticipantsTypeIDPutResponse:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/ParticipantsTypeIDPutResponse.yaml
-    ParticipantsTypeIDSubIDPostRequest:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/ParticipantsTypeIDSubIDPostRequest.yaml
-    PartiesTypeIDPutResponse:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/PartiesTypeIDPutResponse.yaml
-    Party:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/Party.yaml
-    PartyComplexName:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/PartyComplexName.yaml
-    PartyIdentifier:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/PartyIdentifier.yaml
-    PartyIdInfo:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/PartyIdInfo.yaml
-    PartyIdType:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/PartyIdType.yaml
-    PartyName:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/PartyName.yaml
-    PartyPersonalInfo:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/PartyPersonalInfo.yaml
-    PartyResult:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/PartyResult.yaml
-    PartySubIdOrType:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/PartySubIdOrType.yaml
-    PersonalIdentifierType:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/PersonalIdentifierType.yaml
-    QRCODE:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/QRCODE.yaml
-    QuotesIDPutResponse:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/QuotesIDPutResponse.yaml
-    QuotesPostRequest:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/QuotesPostRequest.yaml
-    Refund:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/Refund.yaml
-    RefundReason:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/RefundReason.yaml
-    TokenCode:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/TokenCode.yaml
-    Transaction:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/Transaction.yaml
-    TransactionInitiator:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/TransactionInitiator.yaml
-    TransactionInitiatorType:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/TransactionInitiatorType.yaml
-    TransactionRequestsIDPutResponse:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/TransactionRequestsIDPutResponse.yaml
-    TransactionRequestsPostRequest:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/TransactionRequestsPostRequest.yaml
-    TransactionRequestState:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/TransactionRequestState.yaml
-    TransactionScenario:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/TransactionScenario.yaml
-    TransactionsIDPutResponse:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/TransactionsIDPutResponse.yaml
-    TransactionState:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/TransactionState.yaml
-    TransactionSubScenario:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/TransactionSubScenario.yaml
-    TransactionType:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/TransactionType.yaml
-    TransfersIDPutResponse:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/TransfersIDPutResponse.yaml
-    TransfersPostRequest:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/TransfersPostRequest.yaml
-    TransferState:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/TransferState.yaml
-    UndefinedEnum:
-      $ref: node_modules/api-snippets/v1.0/openapi3/schemas/UndefinedEnum.yaml
+
+    # Copied references
+    # TODO: these need fixing in the api-snippets library, as they fail validation
+    ErrorInformation:
+      title: ErrorInformation
+      type: object
+      description: Data model for the complex type ErrorInformation.
+      properties:
+        errorCode:
+          $ref: '#/components/schemas/ErrorCode'
+        errorDescription:
+          $ref: '#/components/schemas/ErrorDescription'
+        extensionList:
+          $ref: '#/components/schemas/ExtensionList'
+      required:
+        - errorCode
+        - errorDescription
+
+    Extension:
+      title: Extension
+      type: object
+      description: Data model for the complex type Extension.
+      properties:
+        key:
+          $ref: '#/components/schemas/ExtensionKey'
+        value:
+          $ref: '#/components/schemas/ExtensionValue'
+      required:
+        - key
+        - value
