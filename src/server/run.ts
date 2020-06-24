@@ -30,11 +30,10 @@ import create from './create'
 import start from './start'
 import extensions from './extensions'
 import plugins from './plugins'
-import handlers from './handlers'
 
 export default async function run (config: ServiceConfig): Promise<Server> {
   const server = await create(config)
-  await plugins.register(server, handlers)
+  await plugins.register(server)
   await extensions.register(server)
   return start(server)
 }

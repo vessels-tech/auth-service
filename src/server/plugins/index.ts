@@ -25,7 +25,7 @@
 import Inert from '@hapi/inert'
 import Vision from '@hapi/vision'
 import Blip from 'blipp'
-import { Server, Lifecycle } from '@hapi/hapi'
+import { Server } from '@hapi/hapi'
 
 import ErrorHandling from '@mojaloop/central-services-error-handling'
 import Shared from '@mojaloop/central-services-shared'
@@ -33,18 +33,39 @@ import Good from './good'
 import Swagger from './swagger'
 import makeOpenApiBackend from './openAPIBackend'
 
-async function register (server: Server, handlers: {[index: string]: Lifecycle.Method}): Promise<Server> {
+async function register (server: Server): Promise<Server> {
+  const openApiBackend = await makeOpenApiBackend();
+  // const swaggeredUi = {
+  //   plugin: require('hapi-swaggered-ui'),
+  //   options: {
+  //     title: 'Example API',
+  //     path: '/docs',
+  //     swaggerEndpoint: '../../interface/swagger.json'
+  //     // authorization: { // see above
+  //     //   field: 'apiKey',
+  //     //   scope: 'query', // header works as well
+  //     //   // valuePrefix: 'bearer '// prefix incase
+  //     //   defaultValue: 'demoKey',
+  //     //   placeholder: 'Enter your apiKey here'
+  //     // },
+  //     // swaggerOptions: {} // see above
+  //   }
+  // }
+
   const plugins = [
     Swagger,
     Good,
-    await makeOpenApiBackend(handlers),
+    Shared.Util.Hapi.OpenapiBackendValidator,
+    openApiBackend,
     Inert,
+    // require('inert'),
     Vision,
+    // require('vision'),
     Blip,
     ErrorHandling,
     Shared.Util.Hapi.HapiEventPlugin,
     Shared.Util.Hapi.FSPIOPHeaderValidation,
-    Shared.Util.Hapi.OpenapiBackendValidator,
+    // swaggeredUi,
   ]
 
   await server.register(plugins)

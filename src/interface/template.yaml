@@ -91,297 +91,297 @@ paths:
       summary: example get
       description: The HTTP request GET /hello is used to return some example json.
 
-  /consents:
-    post:
-      description: |
-        The HTTP request `POST /consents` is used to create a consent object. 
+  # /consents:
+  #   post:
+  #     description: |
+  #       The HTTP request `POST /consents` is used to create a consent object. 
         
-        - Called by `DFSP` after the succesful creation and validation of a consentRequest.
-      summary: CreateConsent
-      tags:
-        - consent
-      operationId: CreateConsent
-      parameters:
-        # Headers
-        - $ref: '#/components/parameters/Content-Length'
-        - $ref: '#/components/parameters/Content-Type'
-        - $ref: '#/components/parameters/Date'
-        - $ref: '#/components/parameters/X-Forwarded-For'
-        - $ref: '#/components/parameters/FSPIOP-Source'
-        - $ref: '#/components/parameters/FSPIOP-Destination'
-        - $ref: '#/components/parameters/FSPIOP-Encryption'
-        - $ref: '#/components/parameters/FSPIOP-Signature'
-        - $ref: '#/components/parameters/FSPIOP-URI'
-        - $ref: '#/components/parameters/FSPIOP-HTTP-Method'
-      requestBody:
-        description: CreateConsent
-        required: true
-        content:
-          application/json:
-            schema:
-              # TODO: change to CreateConsentRequest
-              $ref: '#/components/schemas/Consent'
-            example:
-              id: '123'
-              requestId: '456'
-              initiatorId: 'pispa'
-              participantId: 'dfspa'
-              scopes:
-                - scope: 'account.balanceInquiry'
-                  accountId: 'dfspa.alice.1234'
-                - scope: 'account.sendTransfer'
-                  accountId: 'dfspa.alice.1234'
-                - scope: 'account.sendTransfer'
-                  accountId: 'dfspa.alice.5678'
-              credential: null
-      responses:
-        202:
-          $ref: '#/components/responses/202'
-        400:
-          $ref: '#/components/responses/400'
-        401:
-          $ref: '#/components/responses/401'
-        403:
-          $ref: '#/components/responses/403'
-        404:
-          $ref: '#/components/responses/404'
-        405:
-          $ref: '#/components/responses/405'
-        406:
-          $ref: '#/components/responses/406'
-        501:
-          $ref: '#/components/responses/501'
-        503:
-          $ref: '#/components/responses/503'
+  #       - Called by `DFSP` after the succesful creation and validation of a consentRequest.
+  #     summary: CreateConsent
+  #     tags:
+  #       - consent
+  #     operationId: CreateConsent
+  #     parameters:
+  #       # Headers
+  #       - $ref: '#/components/parameters/Content-Length'
+  #       - $ref: '#/components/parameters/Content-Type'
+  #       - $ref: '#/components/parameters/Date'
+  #       - $ref: '#/components/parameters/X-Forwarded-For'
+  #       - $ref: '#/components/parameters/FSPIOP-Source'
+  #       - $ref: '#/components/parameters/FSPIOP-Destination'
+  #       - $ref: '#/components/parameters/FSPIOP-Encryption'
+  #       - $ref: '#/components/parameters/FSPIOP-Signature'
+  #       - $ref: '#/components/parameters/FSPIOP-URI'
+  #       - $ref: '#/components/parameters/FSPIOP-HTTP-Method'
+  #     requestBody:
+  #       description: CreateConsent
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             # TODO: change to CreateConsentRequest
+  #             $ref: '#/components/schemas/Consent'
+  #           example:
+  #             id: '123'
+  #             requestId: '456'
+  #             initiatorId: 'pispa'
+  #             participantId: 'dfspa'
+  #             scopes:
+  #               - scope: 'account.balanceInquiry'
+  #                 accountId: 'dfspa.alice.1234'
+  #               - scope: 'account.sendTransfer'
+  #                 accountId: 'dfspa.alice.1234'
+  #               - scope: 'account.sendTransfer'
+  #                 accountId: 'dfspa.alice.5678'
+  #             credential: null
+  #     responses:
+  #       202:
+  #         $ref: '#/components/responses/202'
+  #       400:
+  #         $ref: '#/components/responses/400'
+  #       401:
+  #         $ref: '#/components/responses/401'
+  #       403:
+  #         $ref: '#/components/responses/403'
+  #       404:
+  #         $ref: '#/components/responses/404'
+  #       405:
+  #         $ref: '#/components/responses/405'
+  #       406:
+  #         $ref: '#/components/responses/406'
+  #       501:
+  #         $ref: '#/components/responses/501'
+  #       503:
+  #         $ref: '#/components/responses/503'
 
-  /consents/{ID}:
-    parameters:
-      #Path
-      - $ref: '#/components/parameters/ID'
-      #Headers
-      - $ref: '#/components/parameters/Content-Type'
-      - $ref: '#/components/parameters/Date'
-      - $ref: '#/components/parameters/X-Forwarded-For'
-      - $ref: '#/components/parameters/FSPIOP-Source'
-      - $ref: '#/components/parameters/FSPIOP-Destination'
-      - $ref: '#/components/parameters/FSPIOP-Encryption'
-      - $ref: '#/components/parameters/FSPIOP-Signature'
-      - $ref: '#/components/parameters/FSPIOP-URI'
-      - $ref: '#/components/parameters/FSPIOP-HTTP-Method'
-    get:
-      description: >
-        The HTTP request `GET /consents/{ID}` is used to get information regarding a consent object created or requested earlier. 
-        The `{ID}` in the URI should contain the `{ID}` that was used in the `POST /consents`.
-      summary: GetConsent
-      tags:
-        - consent
-      operationId: GetConsent
-      parameters:
-        #Headers
-        - $ref: '#/components/parameters/Accept'
-      responses:
-        202:
-          $ref: '#/components/responses/202'
-        400:
-          $ref: '#/components/responses/400'
-        401:
-          $ref: '#/components/responses/401'
-        403:
-          $ref: '#/components/responses/403'
-        404:
-          $ref: '#/components/responses/404'
-        405:
-          $ref: '#/components/responses/405'
-        406:
-          $ref: '#/components/responses/406'
-        501:
-          $ref: '#/components/responses/501'
-        503:
-          $ref: '#/components/responses/503'
+  # /consents/{ID}:
+  #   parameters:
+  #     #Path
+  #     - $ref: '#/components/parameters/ID'
+  #     #Headers
+  #     - $ref: '#/components/parameters/Content-Type'
+  #     - $ref: '#/components/parameters/Date'
+  #     - $ref: '#/components/parameters/X-Forwarded-For'
+  #     - $ref: '#/components/parameters/FSPIOP-Source'
+  #     - $ref: '#/components/parameters/FSPIOP-Destination'
+  #     - $ref: '#/components/parameters/FSPIOP-Encryption'
+  #     - $ref: '#/components/parameters/FSPIOP-Signature'
+  #     - $ref: '#/components/parameters/FSPIOP-URI'
+  #     - $ref: '#/components/parameters/FSPIOP-HTTP-Method'
+  #   get:
+  #     description: >
+  #       The HTTP request `GET /consents/{ID}` is used to get information regarding a consent object created or requested earlier. 
+  #       The `{ID}` in the URI should contain the `{ID}` that was used in the `POST /consents`.
+  #     summary: GetConsent
+  #     tags:
+  #       - consent
+  #     operationId: GetConsent
+  #     parameters:
+  #       #Headers
+  #       - $ref: '#/components/parameters/Accept'
+  #     responses:
+  #       202:
+  #         $ref: '#/components/responses/202'
+  #       400:
+  #         $ref: '#/components/responses/400'
+  #       401:
+  #         $ref: '#/components/responses/401'
+  #       403:
+  #         $ref: '#/components/responses/403'
+  #       404:
+  #         $ref: '#/components/responses/404'
+  #       405:
+  #         $ref: '#/components/responses/405'
+  #       406:
+  #         $ref: '#/components/responses/406'
+  #       501:
+  #         $ref: '#/components/responses/501'
+  #       503:
+  #         $ref: '#/components/responses/503'
 
-    put:
-      description: |
-        The HTTP request `PUT /consents/{ID}` is used to update a specified consent object. 
-        The `{ID}` in the URI should contain the `{ID}` that was used in the `POST /consents`.
+  #   put:
+  #     description: |
+  #       The HTTP request `PUT /consents/{ID}` is used to update a specified consent object. 
+  #       The `{ID}` in the URI should contain the `{ID}` that was used in the `POST /consents`.
 
-        - Called by a `auth-service` to add the credential details
+  #       - Called by a `auth-service` to add the credential details
         
-        - Called by a `PISP` to add a signature of the challenge
-      summary: UpdateConsent
-      tags:
-        - consent
-      operationId: UpdateConsent
-      parameters:
-        #Headers
-        - $ref: '#/components/parameters/Content-Length'
-      requestBody:
-        description: UpdateConsent.
-        required: true
-        content:
-          application/json:
-            schema:
-              # TODO: change me to UpdateConsentRequest
-              $ref: '#/components/schemas/Consent'
-            example:
-              requestId: '456'
-              initiatorId: 'dfspa'
-              participantId: 'pispa'
-              scopes:
-                - scope: 'account.balanceInquiry'
-                  accountId: 'dfspa.alice.1234'
-                - scope: 'account.sendTransfer'
-                  accountId: 'dfspa.alice.1234'
-                - scope: 'account.sendTransfer'
-                  accountId: 'dfspa.alice.5678'
-              credential:
-                id: '5678'
-                credentialType: 'FIDO'
-                credentialStatus: 'ACTIVE'
-                challenge:
-                  payload: 'base64(...)'
-                  signature: 'base64(...)'
-                payload: 'base64(...)'
-      responses:
-        202:
-          $ref: '#/components/responses/202'
-        400:
-          $ref: '#/components/responses/400'
-        401:
-          $ref: '#/components/responses/401'
-        403:
-          $ref: '#/components/responses/403'
-        404:
-          $ref: '#/components/responses/404'
-        405:
-          $ref: '#/components/responses/405'
-        406:
-          $ref: '#/components/responses/406'
-        501:
-          $ref: '#/components/responses/501'
-        503:
-          $ref: '#/components/responses/503'
+  #       - Called by a `PISP` to add a signature of the challenge
+  #     summary: UpdateConsent
+  #     tags:
+  #       - consent
+  #     operationId: UpdateConsent
+  #     parameters:
+  #       #Headers
+  #       - $ref: '#/components/parameters/Content-Length'
+  #     requestBody:
+  #       description: UpdateConsent.
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             # TODO: change me to UpdateConsentRequest
+  #             $ref: '#/components/schemas/Consent'
+  #           example:
+  #             requestId: '456'
+  #             initiatorId: 'dfspa'
+  #             participantId: 'pispa'
+  #             scopes:
+  #               - scope: 'account.balanceInquiry'
+  #                 accountId: 'dfspa.alice.1234'
+  #               - scope: 'account.sendTransfer'
+  #                 accountId: 'dfspa.alice.1234'
+  #               - scope: 'account.sendTransfer'
+  #                 accountId: 'dfspa.alice.5678'
+  #             credential:
+  #               id: '5678'
+  #               credentialType: 'FIDO'
+  #               credentialStatus: 'ACTIVE'
+  #               challenge:
+  #                 payload: 'base64(...)'
+  #                 signature: 'base64(...)'
+  #               payload: 'base64(...)'
+  #     responses:
+  #       202:
+  #         $ref: '#/components/responses/202'
+  #       400:
+  #         $ref: '#/components/responses/400'
+  #       401:
+  #         $ref: '#/components/responses/401'
+  #       403:
+  #         $ref: '#/components/responses/403'
+  #       404:
+  #         $ref: '#/components/responses/404'
+  #       405:
+  #         $ref: '#/components/responses/405'
+  #       406:
+  #         $ref: '#/components/responses/406'
+  #       501:
+  #         $ref: '#/components/responses/501'
+  #       503:
+  #         $ref: '#/components/responses/503'
   
-  /consents/{ID}/generateChallenge:
-    post:
-      description: |
-        The HTTP request `POST /consents/{ID}/generateChallenge` is used to create a credential for the given Consent object. 
-        The `{ID}` in the URI should contain the `{ID}` that was used in the `POST /consents`.
+  # /consents/{ID}/generateChallenge:
+  #   post:
+  #     description: |
+  #       The HTTP request `POST /consents/{ID}/generateChallenge` is used to create a credential for the given Consent object. 
+  #       The `{ID}` in the URI should contain the `{ID}` that was used in the `POST /consents`.
 
-        - Called by a `PISP` to request a challenge from the `auth-service`, which will be returned to the PISP via `PUT /consents/{ID}`
-      # TODO: this name is outdated!
-      summary: GenerateChallengeRequest
-      tags:
-        - consent
-      operationId: GenerateChallengeRequest
-      parameters:
-        #Path
-        - $ref: '#/components/parameters/ID'
-        #Headers
-        - $ref: '#/components/parameters/Content-Length'
-        - $ref: '#/components/parameters/Content-Type'
-        - $ref: '#/components/parameters/Date'
-        - $ref: '#/components/parameters/X-Forwarded-For'
-        - $ref: '#/components/parameters/FSPIOP-Source'
-        - $ref: '#/components/parameters/FSPIOP-Destination'
-        - $ref: '#/components/parameters/FSPIOP-Encryption'
-        - $ref: '#/components/parameters/FSPIOP-Signature'
-        - $ref: '#/components/parameters/FSPIOP-URI'
-        - $ref: '#/components/parameters/FSPIOP-HTTP-Method'
-      requestBody:
-        description: GenerateChallengeRequest
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/GenerateChallengeRequest'
-            example:
-              {
+  #       - Called by a `PISP` to request a challenge from the `auth-service`, which will be returned to the PISP via `PUT /consents/{ID}`
+  #     # TODO: this name is outdated!
+  #     summary: GenerateChallengeRequest
+  #     tags:
+  #       - consent
+  #     operationId: GenerateChallengeRequest
+  #     parameters:
+  #       #Path
+  #       - $ref: '#/components/parameters/ID'
+  #       #Headers
+  #       - $ref: '#/components/parameters/Content-Length'
+  #       - $ref: '#/components/parameters/Content-Type'
+  #       - $ref: '#/components/parameters/Date'
+  #       - $ref: '#/components/parameters/X-Forwarded-For'
+  #       - $ref: '#/components/parameters/FSPIOP-Source'
+  #       - $ref: '#/components/parameters/FSPIOP-Destination'
+  #       - $ref: '#/components/parameters/FSPIOP-Encryption'
+  #       - $ref: '#/components/parameters/FSPIOP-Signature'
+  #       - $ref: '#/components/parameters/FSPIOP-URI'
+  #       - $ref: '#/components/parameters/FSPIOP-HTTP-Method'
+  #     requestBody:
+  #       description: GenerateChallengeRequest
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/GenerateChallengeRequest'
+  #           example:
+  #             {
               
-              }
-      responses:
-        202:
-          $ref: '#/components/responses/202'
-        400:
-          $ref: '#/components/responses/400'
-        401:
-          $ref: '#/components/responses/401'
-        403:
-          $ref: '#/components/responses/403'
-        404:
-          $ref: '#/components/responses/404'
-        405:
-          $ref: '#/components/responses/405'
-        406:
-          $ref: '#/components/responses/406'
-        501:
-          $ref: '#/components/responses/501'
-        503:
-          $ref: '#/components/responses/503'
+  #             }
+  #     responses:
+  #       202:
+  #         $ref: '#/components/responses/202'
+  #       400:
+  #         $ref: '#/components/responses/400'
+  #       401:
+  #         $ref: '#/components/responses/401'
+  #       403:
+  #         $ref: '#/components/responses/403'
+  #       404:
+  #         $ref: '#/components/responses/404'
+  #       405:
+  #         $ref: '#/components/responses/405'
+  #       406:
+  #         $ref: '#/components/responses/406'
+  #       501:
+  #         $ref: '#/components/responses/501'
+  #       503:
+  #         $ref: '#/components/responses/503'
 
-  #thirdPartyRequests
-  /thirdPartyRequests/transactions/{ID}/authorizations:
-    post:
-      # TODO: update!
-      description: |
-        The HTTP request `POST /thirdPartyRequests/transactions/{id}/authorizations` is called by
-        the DFSP to check that a ThirdPartyRequest is valid
+  # #thirdPartyRequests
+  # /thirdPartyRequests/transactions/{ID}/authorizations:
+  #   post:
+  #     # TODO: update!
+  #     description: |
+  #       The HTTP request `POST /thirdPartyRequests/transactions/{id}/authorizations` is called by
+  #       the DFSP to check that a ThirdPartyRequest is valid
 
-      summary: ThirdpartyAuthorizationRequest
-      tags:
-        - thirdPartyRequests
-      operationId: VerifyThirdPartyAuthorization
-      parameters:
-        #Path
-        - $ref: '#/components/parameters/ID'
-        #Headers
-        - $ref: '#/components/parameters/Accept'
-        - $ref: '#/components/parameters/Content-Length'
-        - $ref: '#/components/parameters/Content-Type'
-        - $ref: '#/components/parameters/Date'
-        - $ref: '#/components/parameters/X-Forwarded-For'
-        - $ref: '#/components/parameters/FSPIOP-Source'
-        - $ref: '#/components/parameters/FSPIOP-Destination'
-        - $ref: '#/components/parameters/FSPIOP-Encryption'
-        - $ref: '#/components/parameters/FSPIOP-Signature'
-        - $ref: '#/components/parameters/FSPIOP-URI'
-        - $ref: '#/components/parameters/FSPIOP-HTTP-Method'
-      requestBody:
-        description: Transaction request to be created.
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ThirdPartyAuthorizationRequest'
-            example:
-              {
-                #from ""PUT /quotes/456"" callback
-                challenge: "<QuoteResponse object>",
-                #from `PUT /authorizations/123` callback: `.authenticationInfo.authenticationValue.pinValue`
-                value: "<base64 encoded binary - the signed quote response object>",
-                #from `thirdpartyRequests/transactions` body
-                consentId: "111",
-                sourceAccountId: "dfspa.1111-2222",
-                status: "PENDING"
-              }
-      responses:
-        202:
-          $ref: '#/components/responses/202'
-        400:
-          $ref: '#/components/responses/400'
-        401:
-          $ref: '#/components/responses/401'
-        403:
-          $ref: '#/components/responses/403'
-        404:
-          $ref: '#/components/responses/404'
-        405:
-          $ref: '#/components/responses/405'
-        406:
-          $ref: '#/components/responses/406'
-        501:
-          $ref: '#/components/responses/501'
-        503:
-          $ref: '#/components/responses/503'
+  #     summary: ThirdpartyAuthorizationRequest
+  #     tags:
+  #       - thirdPartyRequests
+  #     operationId: VerifyThirdPartyAuthorization
+  #     parameters:
+  #       #Path
+  #       - $ref: '#/components/parameters/ID'
+  #       #Headers
+  #       - $ref: '#/components/parameters/Accept'
+  #       - $ref: '#/components/parameters/Content-Length'
+  #       - $ref: '#/components/parameters/Content-Type'
+  #       - $ref: '#/components/parameters/Date'
+  #       - $ref: '#/components/parameters/X-Forwarded-For'
+  #       - $ref: '#/components/parameters/FSPIOP-Source'
+  #       - $ref: '#/components/parameters/FSPIOP-Destination'
+  #       - $ref: '#/components/parameters/FSPIOP-Encryption'
+  #       - $ref: '#/components/parameters/FSPIOP-Signature'
+  #       - $ref: '#/components/parameters/FSPIOP-URI'
+  #       - $ref: '#/components/parameters/FSPIOP-HTTP-Method'
+  #     requestBody:
+  #       description: Transaction request to be created.
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/ThirdPartyAuthorizationRequest'
+  #           example:
+  #             {
+  #               #from ""PUT /quotes/456"" callback
+  #               challenge: "<QuoteResponse object>",
+  #               #from `PUT /authorizations/123` callback: `.authenticationInfo.authenticationValue.pinValue`
+  #               value: "<base64 encoded binary - the signed quote response object>",
+  #               #from `thirdpartyRequests/transactions` body
+  #               consentId: "111",
+  #               sourceAccountId: "dfspa.1111-2222",
+  #               status: "PENDING"
+  #             }
+  #     responses:
+  #       202:
+  #         $ref: '#/components/responses/202'
+  #       400:
+  #         $ref: '#/components/responses/400'
+  #       401:
+  #         $ref: '#/components/responses/401'
+  #       403:
+  #         $ref: '#/components/responses/403'
+  #       404:
+  #         $ref: '#/components/responses/404'
+  #       405:
+  #         $ref: '#/components/responses/405'
+  #       406:
+  #         $ref: '#/components/responses/406'
+  #       501:
+  #         $ref: '#/components/responses/501'
+  #       503:
+  #         $ref: '#/components/responses/503'
 
 components:
   parameters:
