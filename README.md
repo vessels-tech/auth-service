@@ -43,6 +43,13 @@ npm run start
 ```
 
 ### Updating the OpenApi (Swagger) spec
+
+To reduce the amount of copy/paste across Mojaloop repositories, we are testing out a new approach to keeping our OpenAPI files up to date.
+
+In our repo, we keep a `template.yaml` file, which, when combined with our [common api snippets](https://github.com/mojaloop/api-snippets), will render our `swagger.json` file for this project.
+
+> **Note:** Make sure the `swagger.json` file _is_ in git, to protect from the common snippets being modified, and possibly injecting nasty surprises at build time.
+
 ```bash
 
 ./node_modules/.bin/multi-file-swagger -o yaml api.yaml > src/interface/test.json
