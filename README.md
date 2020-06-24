@@ -52,6 +52,6 @@ In our repo, we keep a `template.yaml` file, which, when combined with our [comm
 
 ```bash
 
-./node_modules/.bin/multi-file-swagger -o yaml api.yaml > src/interface/test.json
+./node_modules/.bin/multi-file-swagger -o yaml api.yaml > src/interface/swagger.json
 ```
 

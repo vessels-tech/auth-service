@@ -119,6 +119,7 @@ paths:
         content:
           application/json:
             schema:
+              # TODO: change to CreateConsentRequest
               $ref: '#/components/schemas/Consent'
             example:
               id: '123'
@@ -197,6 +198,7 @@ paths:
           $ref: '#/components/responses/501'
         503:
           $ref: '#/components/responses/503'
+
     put:
       description: |
         The HTTP request `PUT /consents/{ID}` is used to update a specified consent object. 
@@ -218,6 +220,7 @@ paths:
         content:
           application/json:
             schema:
+              # TODO: change me to UpdateConsentRequest
               $ref: '#/components/schemas/Consent'
             example:
               requestId: '456'
@@ -266,10 +269,10 @@ paths:
 
         - Called by a `PISP` to request a challenge from the `auth-service`, which will be returned to the PISP via `PUT /consents/{ID}`
       # TODO: this name is outdated!
-      summary: CreateCredential
+      summary: GenerateChallengeRequest
       tags:
         - consent
-      operationId: CreateCredential
+      operationId: GenerateChallengeRequest
       parameters:
         #Path
         - $ref: '#/components/parameters/ID'
@@ -285,14 +288,16 @@ paths:
         - $ref: '#/components/parameters/FSPIOP-URI'
         - $ref: '#/components/parameters/FSPIOP-HTTP-Method'
       requestBody:
-        description: CreateCredential
+        description: GenerateChallengeRequest
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateCredential'
+              $ref: '#/components/schemas/GenerateChallengeRequest'
             example:
-              type: 'FIDO'
+              {
+              
+              }
       responses:
         202:
           $ref: '#/components/responses/202'
@@ -314,7 +319,7 @@ paths:
           $ref: '#/components/responses/503'
 
   #thirdPartyRequests
-  /thirdPartyRequests/transactions/{id}/authorizations:
+  /thirdPartyRequests/transactions/{ID}/authorizations:
     post:
       # TODO: update!
       description: |
@@ -475,8 +480,9 @@ components:
         - credentialType
         - credentialStatus
 
-    CreateCredential:
-      title: CreateCredential
+    # TODO: update me to be an empty body!
+    GenerateChallengeRequest:
+      title: GenerateChallengeRequest
       type: object
       description: >
         A credential used to allow a user to prove their identity and access to an account with a DFSP
@@ -485,6 +491,7 @@ components:
           $ref: '#/components/schemas/CredentialTypeEnum'
       required:
         - credentialType
+
     CredentialChallenge:
       title: CredentialChallenge
       type: object
