@@ -18,17 +18,16 @@
  * Gates Foundation
  - Name Surname <name.surname@gatesfoundation.com>
 
- - Paweł Marzec <pawel.marzec@modusbox.com>
-
  - Raman Mangla <ramanmangla@google.com>
  --------------
  ******/
 
-import Db from '../lib/db'
+import Db from '../../lib/db'
 
 /**
  * Interface for query return type
  */
+
 export interface Consent {
   id: string;
   initiatorId: string;
@@ -41,9 +40,14 @@ export interface Consent {
 }
 
 /**
- * Basic function to return all consents
+ * Model Functions
  */
-export async function getAllConsents(): Promise<Consent[]> {
+
+export async function registerConsent (consent: Consent): Promise<Consent[]> {
   return Db<Consent>('consent')
-    .select('*')
+    .insert({
+      id: consent.id,
+      initiatorId: consent.initiatorId,
+      participantId: consent.participantId
+    })
 }
