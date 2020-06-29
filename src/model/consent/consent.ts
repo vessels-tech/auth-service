@@ -66,3 +66,12 @@ export async function updateConsentCredentialsById (consent: Consent, Db: Knex):
       credentialPayload: consent.credentialPayload
     })
 }
+
+/**
+* Model Function for retrieving Consent resourse
+*/
+export async function getConsentById (id: string, Db: Knex): Promise<Consent[]> {
+  return Db<Consent>('Consent')
+    .select('*')
+    .where({ id: id })
+}

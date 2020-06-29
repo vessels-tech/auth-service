@@ -30,7 +30,8 @@ import Knex from 'knex'
 import {
   Consent,
   registerConsent,
-  updateConsentCredentialsById
+  updateConsentCredentialsById,
+  getConsentById
 } from './consent'
 
 export default class ConsentModel {
@@ -46,6 +47,10 @@ export default class ConsentModel {
 
   public updateConsentCredentialsById (consent: Consent): Promise<Consent[]> {
     return updateConsentCredentialsById(consent, this.Db)
+  }
+
+  public getConsentById (id: string): Promise<Consent[]> {
+    return getConsentById(id, this.Db)
   }
 }
 

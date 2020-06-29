@@ -108,4 +108,21 @@ describe('consent', (): void => {
       expect(users[0]).toEqual(completeConsent)
     })
   })
+
+  describe('getConsentById', (): void => {
+    // Reset table for new test
+    beforeAll(async (): Promise<void> => {
+      await Db<Consent>('Consent').del()
+      await Db<Consent>('Consent')
+        .insert(completeConsent)
+    })
+
+    it('retrieves an existing consent', async (): Promise<void> => {
+      // Action
+      const users: Consent[] = await consentModel.getConsentById(completeConsent.id)
+
+      // Assertion
+      expect(users[0]).toEqual(completeConsent)
+    })
+  })
 })
