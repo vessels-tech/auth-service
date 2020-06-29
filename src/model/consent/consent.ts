@@ -27,7 +27,6 @@ import Knex from 'knex'
 /**
  * Interface for query return type
  */
-
 export interface Consent {
   id: string;
   initiatorId: string;
@@ -40,14 +39,30 @@ export interface Consent {
 }
 
 /**
- * Model Functions
+ * Model Function for adding initial consent parameters
+ * Used only once in a consent's linking process
  */
-
 export async function registerConsent (consent: Consent, Db: Knex): Promise<Consent[]> {
   return Db<Consent>('Consent')
     .insert({
       id: consent.id,
       initiatorId: consent.initiatorId,
       participantId: consent.participantId
+    })
+}
+
+/**
+ * Model Function for updating consent credentials
+ * Used in subsequent linking communication
+ */
+export async function updateConsentCredentialsById (consent: Consent, Db: Knex): Promise<Consent[]> {
+  return Db<Consent>('Consent')
+    .where({ id: consent.id })
+    .update({
+      credentialId: consent.credentialId,
+      credentialType: consent.credentialType,
+      credentialStatus: consent.credentialStatus,
+      credentialChallenge: consent.credentialChallenge,
+      credentialPayload: consent.credentialPayload
     })
 }

@@ -27,7 +27,11 @@
  */
 
 import Knex from 'knex'
-import { Consent, registerConsent } from './consent'
+import {
+  Consent,
+  registerConsent,
+  updateConsentCredentialsById
+} from './consent'
 
 export default class ConsentModel {
   private Db: Knex
@@ -37,6 +41,7 @@ export default class ConsentModel {
   }
 
   public registerConsent = (consent: Consent): Promise<Consent[]> => registerConsent(consent, this.Db)
+  public updateConsentCredentialsById = (consent: Consent): Promise<Consent[]> => updateConsentCredentialsById(consent, this.Db)
 }
 
 export { Consent } from './consent'

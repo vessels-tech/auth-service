@@ -69,4 +69,44 @@ describe('consent', (): void => {
       })
     })
   })
+
+  describe('updateConsentCredentialsById', (): void => {
+    // Reset table for new test
+    beforeAll(async (): Promise<void> => {
+      await Db<Consent>('Consent').del()
+      await Db<Consent>('Consent')
+        .insert({
+          id: '1234',
+          initiatorId: 'pisp-2342-2233',
+          participantId: 'dfsp-3333-2123'
+        })
+    })
+
+    it('updates credentials for existing consent', async (): Promise<void> => {
+      const tempConsent: Consent = {
+        id: '1234',
+        initiatorId: 'pisp-2342-2233',
+        participantId: 'dfsp-3333-2123',
+        credentialId: 123,
+        credentialType: 'FIDO',
+        credentialStatus: 'PENDING',
+        credentialChallenge: 'xyhdushsoa82w92mzs',
+        credentialPayload: 'dwuduwd&e2idjoj0w'
+      }
+
+      await consentModel.updateConsentCredentialsById(tempConsent)
+
+      const users: Consent[] = await Db('Consent').select('*').where({ id: '1234' })
+      expect(users[0]).toEqual({
+        id: '1234',
+        initiatorId: 'pisp-2342-2233',
+        participantId: 'dfsp-3333-2123',
+        credentialId: 123,
+        credentialType: 'FIDO',
+        credentialStatus: 'PENDING',
+        credentialChallenge: 'xyhdushsoa82w92mzs',
+        credentialPayload: 'dwuduwd&e2idjoj0w'
+      })
+    })
+  })
 })
