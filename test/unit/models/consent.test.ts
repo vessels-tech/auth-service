@@ -29,7 +29,6 @@ import ConsentModel, { Consent } from '../../../src/model/consent'
 /**
  * Mock Consent Resources
  */
-
 const partialConsent: Consent = {
   id: '1234',
   initiatorId: 'pisp-2342-2233',
@@ -50,7 +49,6 @@ const completeConsent: Consent = {
 /**
  * Consent Resource Model Unit Tests
  */
-
 describe('consent', (): void => {
   let Db: Knex
   let consentModel: ConsentModel
@@ -121,7 +119,7 @@ describe('consent', (): void => {
 
   describe('getConsentById', (): void => {
     // Reset table for new test
-    beforeAll(async (): Promise<void> => {
+    beforeEach(async (): Promise<void> => {
       await Db<Consent>('Consent').del()
       await Db<Consent>('Consent')
         .insert(completeConsent)
@@ -138,7 +136,7 @@ describe('consent', (): void => {
 
   describe('deleteConsentById', (): void => {
     // Reset table for new test
-    beforeAll(async (): Promise<void> => {
+    beforeEach(async (): Promise<void> => {
       await Db<Consent>('Consent').del()
       await Db<Consent>('Consent')
         .insert(completeConsent)
