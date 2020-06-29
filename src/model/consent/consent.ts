@@ -22,7 +22,7 @@
  --------------
  ******/
 
-import Db from '../../lib/db'
+import Knex from 'knex'
 
 /**
  * Interface for query return type
@@ -43,7 +43,7 @@ export interface Consent {
  * Model Functions
  */
 
-export async function registerConsent (consent: Consent): Promise<Consent[]> {
+export async function registerConsent (consent: Consent, Db: Knex): Promise<Consent[]> {
   return Db<Consent>('consent')
     .insert({
       id: consent.id,

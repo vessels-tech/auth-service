@@ -22,4 +22,15 @@
  --------------
  ******/
 
-export * from './consent'
+import Knex from 'knex'
+import { Consent, registerConsent } from './consent'
+
+export default class ConsentModel {
+  private Db: Knex
+
+  public constructor (dbInstance: Knex) {
+    this.Db = dbInstance
+  }
+
+  public registerConsent = (consent: Consent): Promise<Consent[]> => registerConsent(consent, this.Db)
+}
