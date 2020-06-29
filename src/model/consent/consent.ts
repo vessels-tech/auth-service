@@ -55,7 +55,7 @@ export async function registerConsent (consent: Consent, Db: Knex): Promise<Cons
  * Model Function for updating Consent credentials
  * Used in subsequent linking communication
  */
-export async function updateConsentCredentialsById (consent: Consent, Db: Knex): Promise<Consent[]> {
+export async function updateCredentialsByConsentId (consent: Consent, Db: Knex): Promise<Consent[]> {
   return Db<Consent>('Consent')
     .where({ id: consent.id })
     .update({

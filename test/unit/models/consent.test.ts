@@ -94,7 +94,7 @@ describe('consent', (): void => {
     })
   })
 
-  describe('updateConsentCredentialsById', (): void => {
+  describe('updateCredentialsByConsentId', (): void => {
     // Reset table for new test
     beforeEach(async (): Promise<void> => {
       await Db<Consent>('Consent').del()
@@ -104,7 +104,7 @@ describe('consent', (): void => {
 
     it('updates credentials for existing consent', async (): Promise<void> => {
       // Action
-      await consentModel.updateConsentCredentialsById(completeConsent)
+      await consentModel.updateCredentialsByConsentId(completeConsent)
 
       // Assertion
       const users: Consent[] = await Db<Consent>('Consent')
