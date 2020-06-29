@@ -40,8 +40,13 @@ export default class ConsentModel {
     this.Db = dbInstance
   }
 
-  public registerConsent = (consent: Consent): Promise<Consent[]> => registerConsent(consent, this.Db)
-  public updateConsentCredentialsById = (consent: Consent): Promise<Consent[]> => updateConsentCredentialsById(consent, this.Db)
+  public registerConsent (consent: Consent): Promise<Consent[]> {
+    return registerConsent(consent, this.Db)
+  }
+
+  public updateConsentCredentialsById (consent: Consent): Promise<Consent[]> {
+    return updateConsentCredentialsById(consent, this.Db)
+  }
 }
 
 export { Consent } from './consent'

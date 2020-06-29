@@ -26,6 +26,31 @@ import Knex from 'knex'
 import Config from '../../../config/knexfile'
 import ConsentModel, { Consent } from '../../../src/model/consent'
 
+/**
+ * Mock Consent Resources
+ */
+
+const partialConsent: Consent = {
+  id: '1234',
+  initiatorId: 'pisp-2342-2233',
+  participantId: 'dfsp-3333-2123'
+}
+
+const completeConsent: Consent = {
+  id: '1234',
+  initiatorId: 'pisp-2342-2233',
+  participantId: 'dfsp-3333-2123',
+  credentialId: 123,
+  credentialType: 'FIDO',
+  credentialStatus: 'PENDING',
+  credentialChallenge: 'xyhdushsoa82w92mzs',
+  credentialPayload: 'dwuduwd&e2idjoj0w'
+}
+
+/**
+ * Consent Resource Model Unit Tests
+ */
+
 describe('consent', (): void => {
   let Db: Knex
   let consentModel: ConsentModel
@@ -48,14 +73,10 @@ describe('consent', (): void => {
     })
 
     it('adds consent to the database', async (): Promise<void> => {
-      const tempConsent: Consent = {
-        id: '1234',
-        initiatorId: 'pisp-2342-2233',
-        participantId: 'dfsp-3333-2123'
-      }
+      // Action
+      await consentModel.registerConsent(partialConsent)
 
-      await consentModel.registerConsent(tempConsent)
-
+      // Assertion
       const users: Consent[] = await Db('Consent').select('*').where({ id: '1234' })
       expect(users[0]).toEqual({
         id: '1234',
@@ -72,41 +93,19 @@ describe('consent', (): void => {
 
   describe('updateConsentCredentialsById', (): void => {
     // Reset table for new test
-    beforeAll(async (): Promise<void> => {
+    beforeEach(async (): Promise<void> => {
       await Db<Consent>('Consent').del()
       await Db<Consent>('Consent')
-        .insert({
-          id: '1234',
-          initiatorId: 'pisp-2342-2233',
-          participantId: 'dfsp-3333-2123'
-        })
+        .insert(partialConsent)
     })
 
     it('updates credentials for existing consent', async (): Promise<void> => {
-      const tempConsent: Consent = {
-        id: '1234',
-        initiatorId: 'pisp-2342-2233',
-        participantId: 'dfsp-3333-2123',
-        credentialId: 123,
-        credentialType: 'FIDO',
-        credentialStatus: 'PENDING',
-        credentialChallenge: 'xyhdushsoa82w92mzs',
-        credentialPayload: 'dwuduwd&e2idjoj0w'
-      }
+      // Action
+      await consentModel.updateConsentCredentialsById(completeConsent)
 
-      await consentModel.updateConsentCredentialsById(tempConsent)
-
+      // Assertion
       const users: Consent[] = await Db('Consent').select('*').where({ id: '1234' })
-      expect(users[0]).toEqual({
-        id: '1234',
-        initiatorId: 'pisp-2342-2233',
-        participantId: 'dfsp-3333-2123',
-        credentialId: 123,
-        credentialType: 'FIDO',
-        credentialStatus: 'PENDING',
-        credentialChallenge: 'xyhdushsoa82w92mzs',
-        credentialPayload: 'dwuduwd&e2idjoj0w'
-      })
+      expect(users[0]).toEqual(completeConsent)
     })
   })
 })
