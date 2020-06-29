@@ -22,6 +22,10 @@
  --------------
  ******/
 
+/**
+ * Class to encapsulate Consent functions for DB dependencies
+ */
+
 import Knex from 'knex'
 import { Consent, registerConsent } from './consent'
 
@@ -34,3 +38,5 @@ export default class ConsentModel {
 
   public registerConsent = (consent: Consent): Promise<Consent[]> => registerConsent(consent, this.Db)
 }
+
+export { Consent } from './consent'

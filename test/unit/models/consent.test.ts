@@ -23,31 +23,50 @@
  ******/
 
 import Knex from 'knex'
+import Config from '../../../config/knexfile'
+import ConsentModel, { Consent } from '../../../src/model/consent'
 
-/**
- * Interface for query return type
- */
+describe('consent', (): void => {
+  let Db: Knex
+  let consentModel: ConsentModel
 
-export interface Consent {
-  id: string;
-  initiatorId: string;
-  participantId: string;
-  credentialId?: number;
-  credentialType?: string;
-  credentialStatus?: string;
-  credentialPayload?: string;
-  credentialChallenge?: string;
-}
+  beforeAll(async (): Promise<void> => {
+    Db = Knex(Config.test)
+    await Db.migrate.latest()
 
-/**
- * Model Functions
- */
+    consentModel = new ConsentModel(Db)
+  })
 
-export async function registerConsent (consent: Consent, Db: Knex): Promise<Consent[]> {
-  return Db<Consent>('Consent')
-    .insert({
-      id: consent.id,
-      initiatorId: consent.initiatorId,
-      participantId: consent.participantId
+  afterAll(async (): Promise<void> => {
+    Db.destroy()
+  })
+
+  describe('registerConsent', (): void => {
+    // Reset table for new test
+    beforeEach(async (): Promise<void> => {
+      await Db<Consent>('Consent').del()
     })
-}
+
+    it('adds consent to the database', async (): Promise<void> => {
+      const tempConsent: Consent = {
+        id: '1234',
+        initiatorId: 'pisp-2342-2233',
+        participantId: 'dfsp-3333-2123'
+      }
+
+      await consentModel.registerConsent(tempConsent)
+
+      const users: Consent[] = await Db('Consent').select('*').where({ id: '1234' })
+      expect(users[0]).toEqual({
+        id: '1234',
+        initiatorId: 'pisp-2342-2233',
+        participantId: 'dfsp-3333-2123',
+        credentialId: null,
+        credentialType: null,
+        credentialStatus: null,
+        credentialPayload: null,
+        credentialChallenge: null
+      })
+    })
+  })
+})
