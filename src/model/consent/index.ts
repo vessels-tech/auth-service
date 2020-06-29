@@ -31,7 +31,8 @@ import {
   Consent,
   registerConsent,
   updateConsentCredentialsById,
-  getConsentById
+  getConsentById,
+  deleteConsentById
 } from './consent'
 
 export default class ConsentModel {
@@ -51,6 +52,10 @@ export default class ConsentModel {
 
   public getConsentById (id: string): Promise<Consent[]> {
     return getConsentById(id, this.Db)
+  }
+
+  public deleteConsentById (id: string): Promise<Consent[]> {
+    return deleteConsentById(id, this.Db)
   }
 }
 

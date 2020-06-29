@@ -75,3 +75,12 @@ export async function getConsentById (id: string, Db: Knex): Promise<Consent[]> 
     .select('*')
     .where({ id: id })
 }
+
+/**
+* Model Function for deleting Consent resourse
+*/
+export async function deleteConsentById (id: string, Db: Knex): Promise<Consent[]> {
+  return Db<Consent>('consent')
+    .where({ id: id })
+    .del()
+}
