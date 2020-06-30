@@ -26,6 +26,6 @@ import Knex from 'knex'
 // @ts-ignore
 import Config from '../../config/knexfile'
 
-const Db: Knex = Knex(Config.test)
+const Db: Knex = Knex(Config.development)
 
 export default Db
