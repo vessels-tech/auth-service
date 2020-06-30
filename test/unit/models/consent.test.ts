@@ -70,7 +70,7 @@ describe('consent', (): void => {
       await Db<Consent>('Consent').del()
     })
 
-    it('adds consent to the database', async (): Promise<void> => {
+    it('adds consent with partial info to the database', async (): Promise<void> => {
       // Action
       await consentModel.registerConsent(partialConsent)
 

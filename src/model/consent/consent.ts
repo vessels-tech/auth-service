@@ -26,6 +26,8 @@ import Knex from 'knex'
 
 /**
  * Interface for Consent resource type
+ * Optional parameters allow partial information
+ * to be inserted/updated in the DB
  */
 export interface Consent {
   id: string;
@@ -44,11 +46,7 @@ export interface Consent {
  */
 export async function registerConsent (consent: Consent, Db: Knex): Promise<Consent[]> {
   return Db<Consent>('Consent')
-    .insert({
-      id: consent.id,
-      initiatorId: consent.initiatorId,
-      participantId: consent.participantId
-    })
+    .insert(consent)
 }
 
 /**
@@ -56,6 +54,7 @@ export async function registerConsent (consent: Consent, Db: Knex): Promise<Cons
  * Used in subsequent linking communication
  */
 export async function updateCredentialsByConsentId (consent: Consent, Db: Knex): Promise<Consent[]> {
+  // Ensure that only credential information is updated
   return Db<Consent>('Consent')
     .where({ id: consent.id })
     .update({
