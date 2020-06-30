@@ -36,6 +36,7 @@ export interface Consent {
   credentialStatus?: string;
   credentialPayload?: string;
   credentialChallenge?: string;
+  timeStamp?: string;
 }
 
 /*

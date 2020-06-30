@@ -81,6 +81,8 @@ describe('consent', (): void => {
           id: partialConsent.id
         })
 
+      delete users[0].timeStamp
+
       expect(users[0]).toEqual({
         id: '1234',
         initiatorId: 'pisp-2342-2233',
@@ -113,6 +115,8 @@ describe('consent', (): void => {
           id: completeConsent.id
         })
 
+      delete users[0].timeStamp
+
       expect(users[0]).toEqual(completeConsent)
     })
   })
@@ -128,6 +132,8 @@ describe('consent', (): void => {
     it('retrieves an existing consent', async (): Promise<void> => {
       // Action
       const users: Consent[] = await consentModel.getConsentById(completeConsent.id)
+
+      delete users[0].timeStamp
 
       // Assertion
       expect(users[0]).toEqual(completeConsent)
