@@ -24,10 +24,8 @@
 
 import Knex from 'knex'
 
-/**
+/*
  * Interface for Consent resource type
- * Optional parameters allow partial information
- * to be inserted/updated in the DB
  */
 export interface Consent {
   id: string;
@@ -40,18 +38,16 @@ export interface Consent {
   credentialChallenge?: string;
 }
 
-/**
+/*
  * Model Function for adding initial Consent parameters
- * Used only once in a Consent's linking process
  */
 export async function registerConsent (consent: Consent, Db: Knex): Promise<Consent[]> {
   return Db<Consent>('Consent')
     .insert(consent)
 }
 
-/**
+/*
  * Model Function for updating Consent credentials
- * Used in subsequent linking communication
  */
 export async function updateCredentialsByConsentId (consent: Consent, Db: Knex): Promise<Consent[]> {
   // Ensure that only credential information is updated
@@ -66,18 +62,19 @@ export async function updateCredentialsByConsentId (consent: Consent, Db: Knex):
     })
 }
 
-/**
-* Model Function for retrieving Consent resourse
-*/
+/*
+ * Model Function for retrieving Consent resourse
+ */
 export async function getConsentById (id: string, Db: Knex): Promise<Consent[]> {
   return Db<Consent>('Consent')
     .select('*')
     .where({ id: id })
 }
 
-/**
-* Model Function for deleting Consent resourse
-*/
+/*
+ * Model Function for deleting Consent resourse
+ * Deleting Consent automatically deletes associates scopes
+ */
 export async function deleteConsentById (id: string, Db: Knex): Promise<Consent[]> {
   return Db<Consent>('consent')
     .where({ id: id })

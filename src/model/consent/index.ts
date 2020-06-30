@@ -22,7 +22,7 @@
  --------------
  ******/
 
-/**
+/*
  * Class to encapsulate Consent functions for DB dependencies
  */
 import Knex from 'knex'

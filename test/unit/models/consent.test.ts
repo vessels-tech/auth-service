@@ -26,7 +26,7 @@ import Knex from 'knex'
 import Config from '../../../config/knexfile'
 import ConsentModel, { Consent } from '../../../src/model/consent'
 
-/**
+/*
  * Mock Consent Resources
  */
 const partialConsent: Consent = {
@@ -46,7 +46,7 @@ const completeConsent: Consent = {
   credentialPayload: 'dwuduwd&e2idjoj0w'
 }
 
-/**
+/*
  * Consent Resource Model Unit Tests
  */
 describe('consent', (): void => {
