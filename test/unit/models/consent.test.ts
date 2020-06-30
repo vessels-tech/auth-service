@@ -61,7 +61,7 @@ describe('consent', (): void => {
   })
 
   afterAll(async (): Promise<void> => {
-    Db.destroy()
+    await Db.destroy()
   })
 
   describe('registerConsent', (): void => {
