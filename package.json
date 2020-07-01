@@ -90,10 +90,8 @@
     "lint-staged": "^10.2.3",
     "multi-file-swagger": "^2.3.0",
     "nodemon": "^2.0.4",
-    "npm-audit-resolver": "2.2.0",
     "npm-check-updates": "6.0.0",
     "source-map-support": "0.5.12",
-    "standard-version": "^8.0.0",
     "ts-jest": "^26.0.0",
     "ts-node": "8.3.0",
     "typescript": "3.9.2"
@@ -116,9 +114,11 @@
     "hapi-openapi": "^2.0.2",
     "hapi-swagger": "^13.0.1",
     "knex": "^0.21.1",
+    "npm-audit-resolver": "^2.2.0",
     "parse-strings-in-object": "^2.0.0",
     "path": "^0.12.7",
     "rc": "^1.2.8",
-    "sqlite3": "^4.2.0"
+    "sqlite3": "^4.2.0",
+    "standard-version": "^8.0.0"
   }
 }
