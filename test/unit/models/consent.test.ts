@@ -75,15 +75,15 @@ describe('consent', (): void => {
       await consentModel.registerConsent(partialConsent)
 
       // Assertion
-      const users: Consent[] = await Db<Consent>('Consent')
+      const consents: Consent[] = await Db<Consent>('Consent')
         .select('*')
         .where({
           id: partialConsent.id
         })
 
-      delete users[0].timeStamp
+      delete consents[0].timeStamp
 
-      expect(users[0]).toEqual({
+      expect(consents[0]).toEqual({
         id: '1234',
         initiatorId: 'pisp-2342-2233',
         participantId: 'dfsp-3333-2123',
@@ -94,12 +94,45 @@ describe('consent', (): void => {
         credentialChallenge: null
       })
     })
+
+    it('returns an error on adding a consent with existing consentId', async (): Promise<void> => {
+      // Action
+      await consentModel.registerConsent(partialConsent)
+
+      // Assertion
+      const consents: Consent[] = await Db<Consent>('Consent')
+        .select('*')
+        .where({
+          id: partialConsent.id
+        })
+
+      delete consents[0].timeStamp
+
+      // Consent has been added
+      expect(consents[0]).toEqual({
+        id: '1234',
+        initiatorId: 'pisp-2342-2233',
+        participantId: 'dfsp-3333-2123',
+        credentialId: null,
+        credentialType: null,
+        credentialStatus: null,
+        credentialPayload: null,
+        credentialChallenge: null
+      })
+
+      // Fail primary key constraint
+      await expect(consentModel.registerConsent(partialConsent)).rejects.toMatchObject({
+        code: 'SQLITE_CONSTRAINT',
+        errno: 19
+      })
+    })
   })
 
   describe('updateCredentialsByConsentId', (): void => {
     // Reset table for new test
     beforeEach(async (): Promise<void> => {
       await Db<Consent>('Consent').del()
+      // Inserting record to update
       await Db<Consent>('Consent')
         .insert(partialConsent)
     })
@@ -109,15 +142,15 @@ describe('consent', (): void => {
       await consentModel.updateCredentialsByConsentId(completeConsent)
 
       // Assertion
-      const users: Consent[] = await Db<Consent>('Consent')
+      const consents: Consent[] = await Db<Consent>('Consent')
         .select('*')
         .where({
           id: completeConsent.id
         })
 
-      delete users[0].timeStamp
+      delete consents[0].timeStamp
 
-      expect(users[0]).toEqual(completeConsent)
+      expect(consents[0]).toEqual(completeConsent)
     })
   })
 
@@ -131,12 +164,12 @@ describe('consent', (): void => {
 
     it('retrieves an existing consent', async (): Promise<void> => {
       // Action
-      const users: Consent[] = await consentModel.getConsentById(completeConsent.id)
+      const consents: Consent[] = await consentModel.getConsentById(completeConsent.id)
 
-      delete users[0].timeStamp
+      delete consents[0].timeStamp
 
       // Assertion
-      expect(users[0]).toEqual(completeConsent)
+      expect(consents[0]).toEqual(completeConsent)
     })
   })
 
@@ -150,25 +183,25 @@ describe('consent', (): void => {
 
     it('deletes an existing consent', async (): Promise<void> => {
       // Pre action Assertion
-      let userConsents: Consent[] = await Db<Consent>('Consent')
+      let consents: Consent[] = await Db<Consent>('Consent')
         .select('*')
         .where({
           id: completeConsent.id
         })
 
-      expect(userConsents.length).toEqual(1)
+      expect(consents.length).toEqual(1)
 
       // Action
       await consentModel.deleteConsentById(completeConsent.id)
 
       // Assertion
-      userConsents = await Db<Consent>('Consent')
+      consents = await Db<Consent>('Consent')
         .select('*')
         .where({
           id: completeConsent.id
         })
 
-      expect(userConsents.length).toEqual(0)
+      expect(consents.length).toEqual(0)
     })
   })
 })
