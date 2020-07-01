@@ -27,7 +27,7 @@ import Knex from 'knex'
 /*
  * Interface for Consent resource type
  */
-export interface ConsentModel {
+export interface Consent {
   id: string;
   initiatorId: string;
   participantId: string;
@@ -51,14 +51,14 @@ export class ConsentDB {
   }
 
   // Add initial Consent parameters
-  public register (consent: ConsentModel): Promise<ConsentModel[]> {
-    return this.Db<ConsentModel>('Consent')
+  public register (consent: Consent): Promise<Consent[]> {
+    return this.Db<Consent>('Consent')
       .insert(consent)
   }
 
   // Update Consent credential
-  public updateCredentials (consent: ConsentModel): Promise<ConsentModel[]> {
-    return this.Db<ConsentModel>('Consent')
+  public updateCredentials (consent: Consent): Promise<Consent[]> {
+    return this.Db<Consent>('Consent')
       .where({ id: consent.id })
       .update({
         credentialId: consent.credentialId,
@@ -70,16 +70,16 @@ export class ConsentDB {
   }
 
   // Retrieve Consent by ID
-  public retrieve (id: string): Promise<ConsentModel[]> {
-    return this.Db<ConsentModel>('Consent')
+  public retrieve (id: string): Promise<Consent[]> {
+    return this.Db<Consent>('Consent')
       .select('*')
       .where({ id: id })
   }
 
   // Delete Consent by ID
   // Deleting Consent automatically deletes associates scopes
-  public delete (id: string): Promise<ConsentModel[]> {
-    return this.Db<ConsentModel>('consent')
+  public delete (id: string): Promise<Consent[]> {
+    return this.Db<Consent>('consent')
       .where({ id: id })
       .del()
   }

@@ -23,6 +23,6 @@
  ******/
 
 export {
-  ConsentModel,
+  Consent,
   ConsentDB as default
 } from './consent'
