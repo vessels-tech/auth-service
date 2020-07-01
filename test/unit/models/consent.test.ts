@@ -24,7 +24,7 @@
 
 import Knex from 'knex'
 import Config from '../../../config/knexfile'
-import Consent, { ConsentModel } from '../../../src/model/consent'
+import ConsentDB, { ConsentModel } from '../../../src/model/consent'
 
 /*
  * Mock Consent Resources
@@ -49,22 +49,22 @@ const completeConsent: ConsentModel = {
 /*
  * Consent Resource Model Unit Tests
  */
-describe('consent', (): void => {
+describe('src/model/consent', (): void => {
   let Db: Knex
-  let consent: Consent
+  let consent: ConsentDB
 
   beforeAll(async (): Promise<void> => {
     Db = Knex(Config.test)
     await Db.migrate.latest()
 
-    consent = new Consent(Db)
+    consent = new ConsentDB(Db)
   })
 
   afterAll(async (): Promise<void> => {
     Db.destroy()
   })
 
-  describe('registerConsent', (): void => {
+  describe('register', (): void => {
     // Reset table for new test
     beforeEach(async (): Promise<void> => {
       await Db<ConsentModel>('Consent').del()
@@ -72,7 +72,7 @@ describe('consent', (): void => {
 
     it('adds consent with partial info to the database', async (): Promise<void> => {
       // Action
-      await consent.registerConsent(partialConsent)
+      await consent.register(partialConsent)
 
       // Assertion
       const consents: ConsentModel[] = await Db<ConsentModel>('Consent')
@@ -97,7 +97,7 @@ describe('consent', (): void => {
 
     it('returns an error on adding a consent with existing consentId', async (): Promise<void> => {
       // Action
-      await consent.registerConsent(partialConsent)
+      await consent.register(partialConsent)
 
       // Assertion
       const consents: ConsentModel[] = await Db<ConsentModel>('Consent')
@@ -121,14 +121,14 @@ describe('consent', (): void => {
       })
 
       // Fail primary key constraint
-      await expect(consent.registerConsent(partialConsent)).rejects.toMatchObject({
+      await expect(consent.register(partialConsent)).rejects.toMatchObject({
         code: 'SQLITE_CONSTRAINT',
         errno: 19
       })
     })
   })
 
-  describe('updateCredentialsByConsentId', (): void => {
+  describe('updateCredentials', (): void => {
     // Reset table for new test
     beforeEach(async (): Promise<void> => {
       await Db<ConsentModel>('Consent').del()
@@ -139,7 +139,7 @@ describe('consent', (): void => {
 
     it('updates credentials for existing consent', async (): Promise<void> => {
       // Action
-      await consent.updateCredentialsByConsentId(completeConsent)
+      await consent.updateCredentials(completeConsent)
 
       // Assertion
       const consents: ConsentModel[] = await Db<ConsentModel>('Consent')
@@ -154,7 +154,7 @@ describe('consent', (): void => {
     })
   })
 
-  describe('getConsentById', (): void => {
+  describe('retrieve', (): void => {
     // Reset table for new test
     beforeEach(async (): Promise<void> => {
       await Db<ConsentModel>('Consent').del()
@@ -164,7 +164,7 @@ describe('consent', (): void => {
 
     it('retrieves an existing consent', async (): Promise<void> => {
       // Action
-      const consents: ConsentModel[] = await consent.getConsentById(completeConsent.id)
+      const consents: ConsentModel[] = await consent.retrieve(completeConsent.id)
 
       delete consents[0].timeStamp
 
@@ -173,7 +173,7 @@ describe('consent', (): void => {
     })
   })
 
-  describe('deleteConsentById', (): void => {
+  describe('delete', (): void => {
     // Reset table for new test
     beforeEach(async (): Promise<void> => {
       await Db<ConsentModel>('Consent').del()
@@ -192,7 +192,7 @@ describe('consent', (): void => {
       expect(consents.length).toEqual(1)
 
       // Action
-      await consent.deleteConsentById(completeConsent.id)
+      await consent.delete(completeConsent.id)
 
       // Assertion
       consents = await Db<ConsentModel>('Consent')

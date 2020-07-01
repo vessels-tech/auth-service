@@ -40,44 +40,47 @@ export interface ConsentModel {
 }
 
 /*
- * Model Function for adding initial Consent parameters
+ * Class to abstract Consent DB operations
  */
-export async function registerConsent (consent: ConsentModel, Db: Knex): Promise<ConsentModel[]> {
-  return Db<ConsentModel>('Consent')
-    .insert(consent)
-}
+export class ConsentDB {
+  // Knex instance
+  private Db: Knex
 
-/*
- * Model Function for updating Consent credentials
- */
-export async function updateCredentialsByConsentId (consent: ConsentModel, Db: Knex): Promise<ConsentModel[]> {
-  // Ensure that only credential information is updated
-  return Db<ConsentModel>('Consent')
-    .where({ id: consent.id })
-    .update({
-      credentialId: consent.credentialId,
-      credentialType: consent.credentialType,
-      credentialStatus: consent.credentialStatus,
-      credentialChallenge: consent.credentialChallenge,
-      credentialPayload: consent.credentialPayload
-    })
-}
+  public constructor (dbInstance: Knex) {
+    this.Db = dbInstance
+  }
 
-/*
- * Model Function for retrieving Consent resourse
- */
-export async function getConsentById (id: string, Db: Knex): Promise<ConsentModel[]> {
-  return Db<ConsentModel>('Consent')
-    .select('*')
-    .where({ id: id })
-}
+  // Add initial Consent parameters
+  public register (consent: ConsentModel): Promise<ConsentModel[]> {
+    return this.Db<ConsentModel>('Consent')
+      .insert(consent)
+  }
 
-/*
- * Model Function for deleting Consent resourse
- * Deleting Consent automatically deletes associates scopes
- */
-export async function deleteConsentById (id: string, Db: Knex): Promise<ConsentModel[]> {
-  return Db<ConsentModel>('consent')
-    .where({ id: id })
-    .del()
+  // Update Consent credential
+  public updateCredentials (consent: ConsentModel): Promise<ConsentModel[]> {
+    return this.Db<ConsentModel>('Consent')
+      .where({ id: consent.id })
+      .update({
+        credentialId: consent.credentialId,
+        credentialType: consent.credentialType,
+        credentialStatus: consent.credentialStatus,
+        credentialChallenge: consent.credentialChallenge,
+        credentialPayload: consent.credentialPayload
+      })
+  }
+
+  // Retrieve Consent by ID
+  public retrieve (id: string): Promise<ConsentModel[]> {
+    return this.Db<ConsentModel>('Consent')
+      .select('*')
+      .where({ id: id })
+  }
+
+  // Delete Consent by ID
+  // Deleting Consent automatically deletes associates scopes
+  public delete (id: string): Promise<ConsentModel[]> {
+    return this.Db<ConsentModel>('consent')
+      .where({ id: id })
+      .del()
+  }
 }

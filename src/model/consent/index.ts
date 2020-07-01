@@ -22,40 +22,7 @@
  --------------
  ******/
 
-/*
- * Class to encapsulate Consent functions for DB dependencies
- */
-import Knex from 'knex'
-import {
+export {
   ConsentModel,
-  registerConsent,
-  updateCredentialsByConsentId,
-  getConsentById,
-  deleteConsentById
+  ConsentDB as default
 } from './consent'
-
-export default class Consent {
-  private Db: Knex
-
-  public constructor (dbInstance: Knex) {
-    this.Db = dbInstance
-  }
-
-  public registerConsent (consent: ConsentModel): Promise<ConsentModel[]> {
-    return registerConsent(consent, this.Db)
-  }
-
-  public updateCredentialsByConsentId (consent: ConsentModel): Promise<ConsentModel[]> {
-    return updateCredentialsByConsentId(consent, this.Db)
-  }
-
-  public getConsentById (id: string): Promise<ConsentModel[]> {
-    return getConsentById(id, this.Db)
-  }
-
-  public deleteConsentById (id: string): Promise<ConsentModel[]> {
-    return deleteConsentById(id, this.Db)
-  }
-}
-
-export { ConsentModel } from './consent'
