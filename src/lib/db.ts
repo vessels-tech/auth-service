@@ -25,7 +25,11 @@
 import Knex from 'knex'
 // @ts-ignore
 import Config from '../../config/knexfile'
+import ConsentDB from '../model/consent'
 
 const Db: Knex = Knex(Config.development)
+const consent: ConsentDB = new ConsentDB(Db)
 
-export default Db
+export {
+  consent
+}
