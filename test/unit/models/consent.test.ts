@@ -150,25 +150,25 @@ describe('consent', (): void => {
 
     it('deletes an existing consent', async (): Promise<void> => {
       // Pre action Assertion
-      let users: Consent[] = await Db('Consent')
+      let userConsents: Consent[] = await Db<Consent>('Consent')
         .select('*')
         .where({
           id: completeConsent.id
         })
 
-      expect(users.length).toEqual(1)
+      expect(userConsents.length).toEqual(1)
 
       // Action
       await consentModel.deleteConsentById(completeConsent.id)
 
       // Assertion
-      users = await Db('Consent')
+      userConsents = await Db<Consent>('Consent')
         .select('*')
         .where({
           id: completeConsent.id
         })
 
-      expect(users.length).toEqual(0)
+      expect(userConsents.length).toEqual(0)
     })
   })
 })
