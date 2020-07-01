@@ -27,35 +27,35 @@
  */
 import Knex from 'knex'
 import {
-  Consent,
+  ConsentModel,
   registerConsent,
   updateCredentialsByConsentId,
   getConsentById,
   deleteConsentById
 } from './consent'
 
-export default class ConsentModel {
+export default class Consent {
   private Db: Knex
 
   public constructor (dbInstance: Knex) {
     this.Db = dbInstance
   }
 
-  public registerConsent (consent: Consent): Promise<Consent[]> {
+  public registerConsent (consent: ConsentModel): Promise<ConsentModel[]> {
     return registerConsent(consent, this.Db)
   }
 
-  public updateCredentialsByConsentId (consent: Consent): Promise<Consent[]> {
+  public updateCredentialsByConsentId (consent: ConsentModel): Promise<ConsentModel[]> {
     return updateCredentialsByConsentId(consent, this.Db)
   }
 
-  public getConsentById (id: string): Promise<Consent[]> {
+  public getConsentById (id: string): Promise<ConsentModel[]> {
     return getConsentById(id, this.Db)
   }
 
-  public deleteConsentById (id: string): Promise<Consent[]> {
+  public deleteConsentById (id: string): Promise<ConsentModel[]> {
     return deleteConsentById(id, this.Db)
   }
 }
 
-export { Consent } from './consent'
+export { ConsentModel } from './consent'

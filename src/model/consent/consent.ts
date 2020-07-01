@@ -27,7 +27,7 @@ import Knex from 'knex'
 /*
  * Interface for Consent resource type
  */
-export interface Consent {
+export interface ConsentModel {
   id: string;
   initiatorId: string;
   participantId: string;
@@ -42,17 +42,17 @@ export interface Consent {
 /*
  * Model Function for adding initial Consent parameters
  */
-export async function registerConsent (consent: Consent, Db: Knex): Promise<Consent[]> {
-  return Db<Consent>('Consent')
+export async function registerConsent (consent: ConsentModel, Db: Knex): Promise<ConsentModel[]> {
+  return Db<ConsentModel>('Consent')
     .insert(consent)
 }
 
 /*
  * Model Function for updating Consent credentials
  */
-export async function updateCredentialsByConsentId (consent: Consent, Db: Knex): Promise<Consent[]> {
+export async function updateCredentialsByConsentId (consent: ConsentModel, Db: Knex): Promise<ConsentModel[]> {
   // Ensure that only credential information is updated
-  return Db<Consent>('Consent')
+  return Db<ConsentModel>('Consent')
     .where({ id: consent.id })
     .update({
       credentialId: consent.credentialId,
@@ -66,8 +66,8 @@ export async function updateCredentialsByConsentId (consent: Consent, Db: Knex):
 /*
  * Model Function for retrieving Consent resourse
  */
-export async function getConsentById (id: string, Db: Knex): Promise<Consent[]> {
-  return Db<Consent>('Consent')
+export async function getConsentById (id: string, Db: Knex): Promise<ConsentModel[]> {
+  return Db<ConsentModel>('Consent')
     .select('*')
     .where({ id: id })
 }
@@ -76,8 +76,8 @@ export async function getConsentById (id: string, Db: Knex): Promise<Consent[]> 
  * Model Function for deleting Consent resourse
  * Deleting Consent automatically deletes associates scopes
  */
-export async function deleteConsentById (id: string, Db: Knex): Promise<Consent[]> {
-  return Db<Consent>('consent')
+export async function deleteConsentById (id: string, Db: Knex): Promise<ConsentModel[]> {
+  return Db<ConsentModel>('consent')
     .where({ id: id })
     .del()
 }
