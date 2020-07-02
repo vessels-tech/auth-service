@@ -31,7 +31,7 @@ export interface Consent {
   id: string;
   initiatorId: string;
   participantId: string;
-  credentialId?: number;
+  credentialId?: string;
   credentialType?: string;
   credentialStatus?: string;
   credentialPayload?: string;
@@ -55,8 +55,8 @@ export class ConsentDB {
       'credentialType',
       'credentialStatus',
       'credentialPayload',
-      'credentialChallenge',
-      'createdAt']
+      'credentialChallenge'
+    ]
   }
 
   // Add initial Consent parameters
