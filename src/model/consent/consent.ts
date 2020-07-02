@@ -91,7 +91,7 @@ export class ConsentDB {
   // Delete Consent by ID
   // Deleting Consent automatically deletes associates scopes
   public delete (id: string): Promise<Consent[]> {
-    return this.Db<Consent>('consent')
+    return this.Db<Consent>('Consent')
       .where({ id: id })
       .del()
   }
