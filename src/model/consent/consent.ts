@@ -46,17 +46,16 @@ export class ConsentDB {
   // Knex instance
   private Db: Knex
   // Nullable fields which don't allow for explicit null upsert
-  private nullProtectedProps: string[]
+  private static nullProtectedProps: Map<string, boolean> = new Map([
+    ['credentialId', true],
+    ['credentialType', true],
+    ['credentialStatus', true],
+    ['credentialPayload', true],
+    ['credentialChallenge', true]
+  ])
 
   public constructor (dbInstance: Knex) {
     this.Db = dbInstance
-    this.nullProtectedProps = [
-      'credentialId',
-      'credentialType',
-      'credentialStatus',
-      'credentialPayload',
-      'credentialChallenge'
-    ]
   }
 
   // Add initial Consent parameters
@@ -70,9 +69,9 @@ export class ConsentDB {
   public updateCredentials (consent: Consent): Promise<Consent[]> {
     const validatedConsent = {}
 
-    for (const key of Object.keys(consent)) {
+    for (const key in consent) {
       // Only allow nullProtectedFields with non-null values for update
-      if (this.nullProtectedProps.indexOf(key) !== -1 && Object(consent)[key]) {
+      if (ConsentDB.nullProtectedProps.get(key) && Object(consent)[key]) {
         Object(validatedConsent)[key] = Object(consent)[key]
       }
     }
