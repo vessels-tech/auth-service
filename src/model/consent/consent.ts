@@ -45,9 +45,18 @@ export interface Consent {
 export class ConsentDB {
   // Knex instance
   private Db: Knex
+  // Nullable fields which don't allow for explicit null upsert
+  private nullProtectedProps: string[]
 
   public constructor (dbInstance: Knex) {
     this.Db = dbInstance
+    this.nullProtectedProps = [
+      'credentialId',
+      'credentialType',
+      'credentialStatus',
+      'credentialPayload',
+      'credentialChallenge',
+      'createdAt']
   }
 
   // Add initial Consent parameters
@@ -57,16 +66,20 @@ export class ConsentDB {
   }
 
   // Update Consent credential
+  // Only non-null Consent fields are updated
   public updateCredentials (consent: Consent): Promise<Consent[]> {
+    const validatedConsent = {}
+
+    for (const key of Object.keys(consent)) {
+      // Only allow nullProtectedFields with non-null values for update
+      if (this.nullProtectedProps.indexOf(key) !== -1 && Object(consent)[key]) {
+        Object(validatedConsent)[key] = Object(consent)[key]
+      }
+    }
+
     return this.Db<Consent>('Consent')
       .where({ id: consent.id })
-      .update({
-        credentialId: consent.credentialId,
-        credentialType: consent.credentialType,
-        credentialStatus: consent.credentialStatus,
-        credentialChallenge: consent.credentialChallenge,
-        credentialPayload: consent.credentialPayload
-      })
+      .update(validatedConsent)
   }
 
   // Retrieve Consent by ID
