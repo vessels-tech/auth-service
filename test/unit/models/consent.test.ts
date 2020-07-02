@@ -81,7 +81,7 @@ describe('src/model/consent', (): void => {
           id: partialConsent.id
         })
 
-      delete consents[0].timeStamp
+      delete consents[0].createdAt
 
       expect(consents[0]).toEqual({
         id: '1234',
@@ -106,7 +106,7 @@ describe('src/model/consent', (): void => {
           id: partialConsent.id
         })
 
-      delete consents[0].timeStamp
+      delete consents[0].createdAt
 
       // Consent has been added
       expect(consents[0]).toEqual({
@@ -148,7 +148,7 @@ describe('src/model/consent', (): void => {
           id: completeConsent.id
         })
 
-      delete consents[0].timeStamp
+      delete consents[0].createdAt
 
       expect(consents[0]).toEqual(completeConsent)
     })
@@ -166,7 +166,7 @@ describe('src/model/consent', (): void => {
       // Action
       const consents: Consent[] = await consentDB.retrieve(completeConsent.id)
 
-      delete consents[0].timeStamp
+      delete consents[0].createdAt
 
       // Assertion
       expect(consents[0]).toEqual(completeConsent)
