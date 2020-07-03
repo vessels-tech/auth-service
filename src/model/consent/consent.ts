@@ -21,6 +21,9 @@
  - Raman Mangla <ramanmangla@google.com>
  --------------
  ******/
+// Note: ignoring coverage for the time being as we cannot test e2e BDD
+// scenarios just yet. Refer to #XXX to keep track of these tests
+/* istanbul ignore file */
 
 import Knex from 'knex'
 
