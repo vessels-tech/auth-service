@@ -37,7 +37,7 @@ import Logger from '@mojaloop/central-services-logger'
 import SDKStandardComponents from '@mojaloop/sdk-standard-components'
 import { Consent } from '~/model/consent'
 
-const mockRevokeConsentStatus = jest.spyOn(Domain, 'revokeConsentStatus')
+const mockrevokeConsent = jest.spyOn(Domain, 'revokeConsent')
 const mockPatchConsents = jest.spyOn(thirdPartyRequest, 'patchConsents')
 const mockGeneratePatchConsentRequest = jest.spyOn(
   Domain, 'generatePatchRevokedConsentRequest')
@@ -131,7 +131,7 @@ const requestBody: SDKStandardComponents.PatchConsentsRequest = {
 describe('server/handlers/consents', (): void => {
   beforeAll((): void => {
     mockIsConsentRequestValid.mockReturnValue(true)
-    mockRevokeConsentStatus.mockResolvedValue(partialConsentRevoked)
+    mockrevokeConsent.mockResolvedValue(partialConsentRevoked)
     mockGeneratePatchConsentRequest.mockReturnValue(requestBody)
     mockPatchConsents
       .mockResolvedValue(1 as unknown as SDKStandardComponents.GenericRequestResponse)
@@ -153,7 +153,7 @@ describe('server/handlers/consents', (): void => {
         expect(mockConsentRetrieve).toBeCalledWith(consentId)
         expect(mockIsConsentRequestValid)
           .toBeCalledWith(partialConsentActive, request)
-        expect(mockRevokeConsentStatus).toBeCalledWith(partialConsentActive)
+        expect(mockrevokeConsent).toBeCalledWith(partialConsentActive)
         expect(Domain.generatePatchRevokedConsentRequest)
           .toBeCalledWith(partialConsentRevoked)
         expect(mockPatchConsents)
@@ -166,7 +166,7 @@ describe('server/handlers/consents', (): void => {
     it('Should also resolve with no errors',
       async (): Promise<void> => {
         mockConsentRetrieve.mockResolvedValueOnce(completeConsentRevoked)
-        mockRevokeConsentStatus.mockResolvedValueOnce(completeConsentRevoked)
+        mockrevokeConsent.mockResolvedValueOnce(completeConsentRevoked)
 
         await expect(Handler.validateRequestAndRevokeConsent(request))
           .resolves.toBe(undefined)
@@ -174,7 +174,7 @@ describe('server/handlers/consents', (): void => {
         expect(mockConsentRetrieve).toBeCalledWith(consentId)
         expect(mockIsConsentRequestValid)
           .toBeCalledWith(completeConsentRevoked, request)
-        expect(mockRevokeConsentStatus).toBeCalledWith(completeConsentRevoked)
+        expect(mockrevokeConsent).toBeCalledWith(completeConsentRevoked)
         expect(mockGeneratePatchConsentRequest)
           .toBeCalledWith(completeConsentRevoked)
         expect(mockPatchConsents)
@@ -193,7 +193,7 @@ describe('server/handlers/consents', (): void => {
 
         expect(mockConsentRetrieve).toBeCalledWith(consentId)
         expect(mockIsConsentRequestValid).not.toBeCalled()
-        expect(mockRevokeConsentStatus).not.toBeCalled()
+        expect(mockrevokeConsent).not.toBeCalled()
         expect(mockGeneratePatchConsentRequest).not.toBeCalled()
         expect(mockPatchConsents).not.toBeCalled()
       })
@@ -206,7 +206,7 @@ describe('server/handlers/consents', (): void => {
 
         expect(mockConsentRetrieve).toBeCalledWith(consentId)
         expect(mockIsConsentRequestValid).toBeCalledWith(partialConsentActive, request)
-        expect(mockRevokeConsentStatus).not.toBeCalled()
+        expect(mockrevokeConsent).not.toBeCalled()
         expect(mockGeneratePatchConsentRequest).not.toBeCalled()
         expect(mockPatchConsents).not.toBeCalled()
       })
@@ -220,7 +220,7 @@ describe('server/handlers/consents', (): void => {
         expect(mockConsentRetrieve).toBeCalledWith(consentId)
         expect(mockIsConsentRequestValid)
           .toBeCalledWith(partialConsentActive, request)
-        expect(mockRevokeConsentStatus).toBeCalledWith(partialConsentActive)
+        expect(mockrevokeConsent).toBeCalledWith(partialConsentActive)
         expect(mockGeneratePatchConsentRequest)
           .toBeCalledWith(partialConsentRevoked)
         expect(mockPatchConsents)

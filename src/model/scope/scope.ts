@@ -41,7 +41,7 @@ import { NotFoundError } from '../errors'
 /*
 * Interface for Scope resource type
 */
-export interface Scope {
+export interface ScopeDAO {
   id?: number;
   consentId: string;
   action: string;
@@ -60,7 +60,7 @@ export class ScopeDB {
   }
 
   // Add a single Scope or an array of Scopes
-  public async insert (scopes: Scope | Scope[]): Promise<boolean> {
+  public async insert (scopes: ScopeDAO | ScopeDAO[]): Promise<boolean> {
     // To avoid inconsistencies between DBs, we define a standard
     // way to deal with empty arrays.
     // We just return true because an empty array was anyways

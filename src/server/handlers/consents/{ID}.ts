@@ -45,10 +45,10 @@ import {
   retrieveValidConsent,
   updateConsentCredential,
   buildConsentRequestBody
-} from '~/domain/consents/{ID}'
+} from '~/domain/consents/consents'
 import { verifySignature } from '~/lib/challenge'
 import { Enum } from '@mojaloop/central-services-shared'
-import { CredentialStatusEnum } from '~/model/consent/consent'
+import { CredentialStatusEnum } from '~/interface/types'
 
 export interface UpdateCredentialRequest {
   credential: {

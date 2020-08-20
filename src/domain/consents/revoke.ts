@@ -40,21 +40,6 @@ import { Consent } from '~/model/consent'
 import Logger from '@mojaloop/central-services-logger'
 import SDKStandardComponents from '@mojaloop/sdk-standard-components'
 
-/**
- * Revoke status of consent object, update in the database
- * and return consent
- */
-export async function revokeConsentStatus (
-  consent: Consent): Promise<Consent> {
-  if (consent.status === 'REVOKED') {
-    Logger.push('Previously revoked consent was asked to be revoked')
-    return consent
-  }
-  consent.status = 'REVOKED'
-  consent.revokedAt = (new Date()).toISOString()
-  await consentDB.update(consent)
-  return consent
-}
 
 /**
  * Generate outgoing PATCH consent/{id}/revoke request body

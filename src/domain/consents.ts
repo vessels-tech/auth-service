@@ -1,11 +1,3 @@
-/* istanbul ignore file */
-
-/*
- * This flag is to ignore BDD testing for model
- * which will be addressed in the future in
- * ticket #354
- */
-
 /*****
  License
  --------------
@@ -32,51 +24,33 @@
  - Name Surname <name.surname@gatesfoundation.com>
 
  - Abhimanyu Kapur <abhi.kapur09@gmail.com>
+ - Lewis Daly <lewisd@crosslaketech.com>
  --------------
  ******/
 
-import { Request } from '@hapi/hapi'
 import { consentDB, scopeDB } from '../lib/db'
-import { Scope } from '../model/scope'
-import { Consent } from '../model/consent'
 import Logger from '@mojaloop/central-services-logger'
-import { Enum } from '@mojaloop/central-services-shared'
-import { ExternalScope, convertExternalToScope } from '../lib/scopes'
+import { ConsentStatus, PostConsentPayload, Consent } from './types'
+import { IncorrectConsentStatusError, IncorrectChallengeError } from './errors'
+import { ConsentCredential } from '~/interface/types'
 
-interface PostConsentPayload {
-  id: string;
-  initiatorId: string;
-  participantId: string;
-  scopes: ExternalScope[];
-  credential: null;
-}
 
-/**
- * Validates whether request is valid
- * by comparing if source header matches participant ID
- * @param request: request received from switch
- */
-export function isPostConsentRequestValid (request: Request): boolean {
-  const payload = request.payload as PostConsentPayload
-  const fspiopSource = request.headers[Enum.Http.Headers.FSPIOP.SOURCE]
-  return (payload.participantId === fspiopSource)
-}
 
 /**
  * Builds internal Consent and Scope objects from request payload
  * Stores the objects in the database
  * @param request request received from switch
  */
-export async function createAndStoreConsent (request: Request): Promise<void> {
-  const payload = request.payload as PostConsentPayload
+// TODO: this shouldn't know anything about the raw request!
+export async function createAndStoreConsent(createConsentRequest: PostConsentPayload): Promise<void> {
   const consent: Consent = {
-    id: payload.id,
-    initiatorId: payload.initiatorId,
-    participantId: payload.participantId,
-    status: 'ACTIVE'
+    id: createConsentRequest.id,
+    initiatorId: createConsentRequest.initiatorId,
+    participantId: createConsentRequest.participantId,
+    status: ConsentStatus.ACTIVE
   }
 
-  const scopes: Scope[] = convertExternalToScope(payload.scopes, consent.id)
+  const scopes = createConsentRequest.scopes
 
   try {
     await consentDB.insert(consent)
@@ -86,4 +60,66 @@ export async function createAndStoreConsent (request: Request): Promise<void> {
     Logger.error('Error: Unable to store consent and scopes')
     throw error
   }
+}
+
+export async function retrieveConsent(consentId: string): Promise<Consent> {
+  const consentDAO = await consentDB.retrieve(consentId)
+
+  //TODO: map to the Consent object!
+
+
+  return {
+    ...consentDAO
+  }
+}
+
+/**
+ * @function checkStatusAndChallenge
+ * @description Checks the status of
+ * @param consent
+ * @param requestChallenge
+ * @throws {IncorrectConsentStatusError} if the consent has been revoked
+ * @throws {IncorrectChallengeError} if the challenge doesn't match the requestChallenge
+ */
+export function checkStatusAndChallenge(consent: Consent, requestChallenge: string): void {
+  if (consent.status === ConsentStatus.REVOKED) {
+    throw new IncorrectConsentStatusError(consent.id)
+  }
+  if (consent.credentialChallenge !== requestChallenge) {
+    throw new IncorrectChallengeError(consent.id)
+  }
+  return consent
+}
+
+/*
+ * Updates the consent resource in the database with incoming request's
+ * credential attributes.
+ */
+export async function updateConsentCredential(
+  consent: Consent,
+  credential: ConsentCredential): Promise<number> {
+  if (!credential.credentialPayload || credential.credentialPayload === '') {
+    throw new Error('Payload not given')
+  }
+  consent.credentialId = credential.credentialId
+  consent.credentialStatus = credential.credentialStatus
+  consent.credentialPayload = credential.credentialPayload as string
+  return consentDB.update(consent)
+}
+
+
+/**
+ * Revoke status of consent object, update in the database
+ * and return consent
+ */
+export async function revokeConsent(
+  consent: Consent): Promise<Consent> {
+  if (consent.status === 'REVOKED') {
+    Logger.push('Previously revoked consent was asked to be revoked')
+    return consent
+  }
+  consent.status = 'REVOKED'
+  consent.revokedAt = (new Date()).toISOString()
+  await consentDB.update(consent)
+  return consent
 }

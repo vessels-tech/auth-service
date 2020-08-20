@@ -32,7 +32,7 @@ import Logger from '@mojaloop/central-services-logger'
 import SDKStandardComponents from '@mojaloop/sdk-standard-components'
 import {
   generatePatchRevokedConsentRequest,
-  revokeConsentStatus
+  revokeConsent
 } from '~/domain/consents/revoke'
 import { Consent } from '~/model/consent'
 
@@ -142,10 +142,10 @@ describe('server/domain/consents/revoke', (): void => {
     jest.clearAllMocks()
   })
 
-  describe('revokeConsentStatus', (): void => {
+  describe('revokeConsent', (): void => {
     it('Should return a revoked consent if given active partial consent',
       async (): Promise<void> => {
-        const revokedConsent = await revokeConsentStatus(partialConsentActive)
+        const revokedConsent = await revokeConsent(partialConsentActive)
         expect(revokedConsent.status).toBe('REVOKED')
         expect(revokedConsent.revokedAt).toBeDefined()
         expect(mockConsentUpdate).toHaveBeenCalled()
@@ -154,7 +154,7 @@ describe('server/domain/consents/revoke', (): void => {
 
     it('Should return a revoked consent if given complete (with credentials) consent',
       async (): Promise<void> => {
-        const revokedConsent = await revokeConsentStatus(completeConsentActive)
+        const revokedConsent = await revokeConsent(completeConsentActive)
         expect(revokedConsent.status).toBe('REVOKED')
         expect(revokedConsent.revokedAt).toBeDefined()
         expect(mockConsentUpdate).toHaveBeenCalled()
@@ -163,7 +163,7 @@ describe('server/domain/consents/revoke', (): void => {
 
     it('Should return the consent object without performing any operations, if already revoked',
       async (): Promise<void> => {
-        const revokedConsent = await revokeConsentStatus(completeConsentRevoked)
+        const revokedConsent = await revokeConsent(completeConsentRevoked)
         expect(revokedConsent).toStrictEqual(completeConsentRevoked)
         expect(mockLoggerPush).toHaveBeenCalled()
         expect(mockConsentUpdate).not.toHaveBeenCalled()
@@ -173,7 +173,7 @@ describe('server/domain/consents/revoke', (): void => {
       async (): Promise<void> => {
         mockConsentUpdate.mockRejectedValue(new Error('Test Error'))
 
-        await expect(revokeConsentStatus(partialConsentActive2))
+        await expect(revokeConsent(partialConsentActive2))
           .rejects
           .toThrowError('Test Error')
 

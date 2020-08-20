@@ -46,9 +46,9 @@ import { NotFoundError } from '../errors'
 import Knex from 'knex'
 
 /*
- * Interface for Consent resource type
+ * Consent object as represented in the Database
  */
-export interface Consent {
+export interface ConsentDAO {
   id: string;
   initiatorId?: string;
   participantId?: string;
@@ -62,22 +62,7 @@ export interface Consent {
   revokedAt?: string;
 }
 
-/*
- * Interface for Consent Credential resource type
- */
-
-export enum CredentialStatusEnum {
-  VERIFIED = 'VERIFIED',
-  PENDING = 'PENDING',
-}
-
-export interface ConsentCredential {
-  credentialId?: string;
-  credentialType: 'FIDO';
-  credentialStatus: CredentialStatusEnum;
-  credentialPayload: string | null;
-  credentialChallenge: string;
-}
+//TODO: A retrieval interface
 
 /*
  * Class to abstract Consent DB operations
@@ -92,23 +77,23 @@ export class ConsentDB {
 
   // Add initial Consent parameters
   // Error bubbles up in case of primary key violation
-  public async insert (consent: Consent): Promise<boolean> {
+  public async insert(consent: ConsentDAO): Promise<boolean> {
     // Returns [0] for MySQL-Knex and [Row Count] for SQLite-Knex
     await this
-      .Db<Consent>('Consent')
+      .Db<ConsentDAO>('Consent')
       .insert(consent)
 
     return true
   }
 
   // Update Consent
-  public async update (consent: Consent): Promise<number> {
+  public async update(consent: ConsentDAO): Promise<number> {
     // Returns number of updated rows
     // Transaction to make the update atomic
     return this.Db.transaction(async (trx): Promise<number> => {
       // Transaction is rolled back automatically if there is
       // an error and the returned promise is rejected
-      const consents: Consent[] = await trx<Consent>('Consent')
+      const consents: ConsentDAO[] = await trx<ConsentDAO>('Consent')
         .select('*')
         .where({ id: consent.id })
         .limit(1)
@@ -122,13 +107,13 @@ export class ConsentDB {
         throw new Error('Cannot modify Revoked Consent')
       }
 
-      const existingConsent: Consent = consents[0]
+      const existingConsent: ConsentDAO = consents[0]
       const updatedConsent: Record<string, string | Date> = {}
 
       // Prepare a new Consent with only allowable updates
       Object.keys(existingConsent).forEach((key): void => {
         const value: string | Date =
-          existingConsent[key as keyof Consent] as string | Date
+          existingConsent[key as keyof ConsentDAO] as string | Date
 
         // Cannot overwrite an `ACTIVE` credentialStatus
         if (key === 'credentialStatus' && value === 'ACTIVE') {
@@ -140,7 +125,7 @@ export class ConsentDB {
           return
         }
 
-        updatedConsent[key] = consent[key as keyof Consent] as string | Date
+        updatedConsent[key] = consent[key as keyof ConsentDAO] as string | Date
       })
 
       // If there are no fields that can be updated
@@ -148,17 +133,17 @@ export class ConsentDB {
         return 0
       }
 
-      return trx<Consent>('Consent')
+      return trx<ConsentDAO>('Consent')
         .where({ id: consent.id })
         .update(updatedConsent)
     })
   }
 
   // Retrieve Consent by ID (unique)
-  public async retrieve (id: string): Promise<Consent> {
+  public async retrieve(id: string): Promise<ConsentDAO> {
     // Returns array containing consents
-    const consents: Consent[] = await this
-      .Db<Consent>('Consent')
+    const consents: ConsentDAO[] = await this
+      .Db<ConsentDAO>('Consent')
       .select('*')
       .where({ id: id })
       .limit(1)
@@ -175,7 +160,7 @@ export class ConsentDB {
   public async delete (id: string): Promise<number> {
     // Returns number of deleted rows
     const deleteCount: number = await this
-      .Db<Consent>('Consent')
+      .Db<ConsentDAO>('Consent')
       .where({ id: id })
       .del()
 

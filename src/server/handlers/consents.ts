@@ -40,8 +40,21 @@ import { Enum } from '@mojaloop/central-services-shared'
 import { Request, ResponseToolkit, ResponseObject } from '@hapi/hapi'
 import {
   createAndStoreConsent,
-  isPostConsentRequestValid
 } from '~/domain/consents'
+import { ExternalScope, convertExternalToScope } from '~/lib/scopes'
+import { Scope } from '~/model/scope'
+import { PostConsentPayload } from '~/domain/types'
+
+
+
+
+interface ExternalPostConsentPayload {
+  id: string;
+  initiatorId: string;
+  participantId: string;
+  scopes: ExternalScope[];
+  credential: null;
+}
 
 /** The HTTP request `POST /consents` is used to create a consent object.
  * Called by `DFSP` after the successful creation and
@@ -50,14 +63,27 @@ import {
 export async function post (
   request: Request,
   h: ResponseToolkit): Promise<ResponseObject> {
-  // Validate request
-  if (!isPostConsentRequestValid(request)) {
+
+  // Semantic validation not handled by joi
+  const payload = request.payload as ExternalPostConsentPayload
+  const fspiopSource = request.headers[Enum.Http.Headers.FSPIOP.SOURCE]
+
+  // `POST /consents` must come from the DFSP
+  if (payload.participantId !== fspiopSource) {
     return h.response().code(Enum.Http.ReturnCodes.BADREQUEST.CODE)
   }
-  // Asynchronously deals with creation and storing of consents and scope
+
+  // Transform from API format to Domain format
+  const scopes: Scope[] = convertExternalToScope(payload.scopes, payload.id)
+  const postConsentPayload: PostConsentPayload = {
+    ...payload,
+    scopes
+  }
+
+  // Async create and store consent
   setImmediate(async (): Promise<void> => {
     try {
-      await createAndStoreConsent(request)
+      await createAndStoreConsent(postConsentPayload)
     } catch (error) {
       Logger.push(error)
       Logger.error('Error: Unable to create/store consent')

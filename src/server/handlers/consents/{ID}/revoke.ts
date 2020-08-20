@@ -36,7 +36,7 @@
  ******/
 import {
   generatePatchRevokedConsentRequest,
-  revokeConsentStatus
+  revokeConsent
 } from '~/domain/consents/revoke'
 import * as validators from '~/domain/validators'
 import { Request, ResponseToolkit, ResponseObject } from '@hapi/hapi'
@@ -75,7 +75,7 @@ export async function validateRequestAndRevokeConsent (
     }
 
     // If Consent is ACTIVE, revoke it and update database. If already revoked, leave it alone but don't throw an error.
-    consent = await revokeConsentStatus(consent)
+    consent = await revokeConsent(consent)
 
     // Outgoing call to PATCH consents/{ID}/revoke
     const requestBody = generatePatchRevokedConsentRequest(consent)
