@@ -44,8 +44,7 @@ import {
 import { ExternalScope, convertExternalToScope } from '~/lib/scopes'
 import { Scope } from '~/model/scope'
 import { PostConsentPayload } from '~/domain/types'
-
-
+import ScopeMapper from '~/lib/mapper/ScopeMapper'
 
 
 interface ExternalPostConsentPayload {
@@ -60,10 +59,7 @@ interface ExternalPostConsentPayload {
  * Called by `DFSP` after the successful creation and
  * validation of a consentRequest.
  */
-export async function post (
-  request: Request,
-  h: ResponseToolkit): Promise<ResponseObject> {
-
+export async function post(request: Request, h: ResponseToolkit): Promise<ResponseObject> {
   // Semantic validation not handled by joi
   const payload = request.payload as ExternalPostConsentPayload
   const fspiopSource = request.headers[Enum.Http.Headers.FSPIOP.SOURCE]
@@ -74,7 +70,7 @@ export async function post (
   }
 
   // Transform from API format to Domain format
-  const scopes: Scope[] = convertExternalToScope(payload.scopes, payload.id)
+  const scopes = ScopeMapper.toDomain(payload.scopes, payload.id)
   const postConsentPayload: PostConsentPayload = {
     ...payload,
     scopes

@@ -30,7 +30,7 @@
 import { Request, ResponseToolkit, ResponseObject } from '@hapi/hapi'
 import { Enum } from '@mojaloop/central-services-shared'
 import * as Handler from '~/server/handlers/consents/{ID}'
-import * as Domain from '~/domain/consents/{ID}'
+import * as Domain from '~/domain/consents/consents'
 import {
   IncorrectChallengeError,
   IncorrectConsentStatusError

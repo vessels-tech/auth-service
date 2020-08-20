@@ -30,10 +30,8 @@
 
 import { consentDB, scopeDB } from '../lib/db'
 import Logger from '@mojaloop/central-services-logger'
-import { ConsentStatus, PostConsentPayload, Consent } from './types'
+import { ConsentStatus, PostConsentPayload, Consent, ConsentCredential } from './types'
 import { IncorrectConsentStatusError, IncorrectChallengeError } from './errors'
-import { ConsentCredential } from '~/interface/types'
-
 
 
 /**
@@ -88,7 +86,6 @@ export function checkStatusAndChallenge(consent: Consent, requestChallenge: stri
   if (consent.credentialChallenge !== requestChallenge) {
     throw new IncorrectChallengeError(consent.id)
   }
-  return consent
 }
 
 /*
@@ -106,6 +103,25 @@ export async function updateConsentCredential(
   consent.credentialPayload = credential.credentialPayload as string
   return consentDB.update(consent)
 }
+
+
+// wtf? why is there 2 of these?
+// export async function updateConsentCredential(
+//   consent: Consent,
+//   credential: ConsentCredential): Promise<Consent> {
+//   // Update consent credentials
+//   consent.credentialType = credential.credentialType
+//   consent.credentialStatus = credential.credentialStatus
+//   consent.credentialChallenge = credential.credentialChallenge
+//   if (credential.credentialPayload) { // if Payload is non-null
+//     consent.credentialPayload = credential.credentialPayload as string
+//   }
+
+//   // Update in database,
+//   // relying on database validation for any null or relational aspects.
+//   await consentDB.update(consent)
+//   return consent
+// }
 
 
 /**

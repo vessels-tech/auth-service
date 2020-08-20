@@ -19,7 +19,6 @@ export enum ConsentStatus {
   REVOKED = 'REVOKED'
 }
 
-
 export interface Consent {
   id: string;
   initiatorId: string;

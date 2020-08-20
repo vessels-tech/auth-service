@@ -51,8 +51,7 @@ export interface ExternalScope {
  * scope & consent ids, and returns array of formatted scopes
  * @param scopes Scopes retrieved from database
  */
-export function convertScopesToExternal (
-  scopes: Scope[]): ExternalScope[] {
+export function convertScopesToExternal (scopes: Scope[]): ExternalScope[] {
   // Dictionary of accountId to ExternalScope object
   const scopeDictionary = {}
 
@@ -78,8 +77,7 @@ export function convertScopesToExternal (
  * @param externalScopes Array of ExternalScope objects received
  * @param consentId Id of Consent to which scopes belong
  */
-export function convertExternalToScope (
-  externalScopes: ExternalScope[], consentId: string): Scope[] {
+export function convertExternalToScope (externalScopes: ExternalScope[], consentId: string): Scope[] {
   const scopes: Scope[] = externalScopes.map(
     (element: ExternalScope): Scope[] =>
       element.actions.map((action: string): Scope => ({

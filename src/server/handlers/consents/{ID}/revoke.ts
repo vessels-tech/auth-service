@@ -77,8 +77,8 @@ export async function validateRequestAndRevokeConsent (
     // If Consent is ACTIVE, revoke it and update database. If already revoked, leave it alone but don't throw an error.
     consent = await revokeConsent(consent)
 
-    // Outgoing call to PATCH consents/{ID}/revoke
-    const requestBody = generatePatchRevokedConsentRequest(consent)
+
+    const requestBody = (consent)
     await thirdPartyRequest.patchConsents(
       consent.id,
       requestBody,
@@ -96,9 +96,7 @@ export async function validateRequestAndRevokeConsent (
  * The HTTP request `POST /consents/{id}/revoke` is used to revoke a consent
  * object - Called by either a PISP or DFSP
  */
-export async function post (
-  request: Request,
-  h: ResponseToolkit): Promise<ResponseObject> {
+export async function post (request: Request, h: ResponseToolkit): Promise<ResponseObject> {
   // Asynchronously validate request and revoke consent
   validateRequestAndRevokeConsent(request)
 
