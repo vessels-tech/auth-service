@@ -5,9 +5,9 @@
   outbound - utils for formatting outbound calls etc...
 */
 
-import { Consent, ConsentStatus } from '~/domain/types'
+import { Consent, ConsentStatus, CredentialStatusEnum } from '~/domain/types'
 import { ExternalScope } from './scopes'
-import SDKStandardComponents from '@mojaloop/sdk-standard-components'
+import SDKStandardComponents, { PutConsentsRequest } from '@mojaloop/sdk-standard-components'
 
 
 /**
@@ -34,7 +34,7 @@ export function generatePatchRevokedConsentRequest(status: ConsentStatus.REVOKED
 //   const externalScopes: ExternalScope[] = convertScopesToExternal(scopes)
 
 
-export function buildConsentRequestBody(consent: Consent, signature: string, externalScopes: ExternalScope[]): SDKStandardComponents.PutConsentsRequest
+export function buildConsentRequestBody(consent: Consent, signature: string, externalScopes: ExternalScope[]): SDKStandardComponents.PutConsentsRequest {
   const consentBody: PutConsentsRequest = {
     requestId: consent.id,
     scopes: externalScopes,
@@ -43,12 +43,15 @@ export function buildConsentRequestBody(consent: Consent, signature: string, ext
     credential: {
       id: consent.credentialId as string,
       credentialType: 'FIDO',
-      status: CredentialStatusEnum.VERIFIED,
+      // TODO: fix ME! Should be verified or something?
+      status: CredentialStatusEnum.PENDING,
       challenge: {
         payload: consent.credentialChallenge as string,
         signature: signature
       },
-      payload: publicKey
+      // TODO: what should this be?
+      // payload: publicKey
+      payload: "123456"
     }
   }
   return consentBody

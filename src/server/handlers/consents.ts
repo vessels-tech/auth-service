@@ -41,25 +41,15 @@ import { Request, ResponseToolkit, ResponseObject } from '@hapi/hapi'
 import {
   createAndStoreConsent,
 } from '~/domain/consents'
-import { ExternalScope, convertExternalToScope } from '~/lib/scopes'
-import { Scope } from '~/model/scope'
 import { PostConsentPayload } from '~/domain/types'
 import ScopeMapper from '~/lib/mapper/ScopeMapper'
-
-
-interface ExternalPostConsentPayload {
-  id: string;
-  initiatorId: string;
-  participantId: string;
-  scopes: ExternalScope[];
-  credential: null;
-}
+import { ExternalPostConsentPayload } from '~/interface/types'
 
 /** The HTTP request `POST /consents` is used to create a consent object.
  * Called by `DFSP` after the successful creation and
  * validation of a consentRequest.
  */
-export async function post(request: Request, h: ResponseToolkit): Promise<ResponseObject> {
+export function post(request: Request, h: ResponseToolkit): ResponseObject {
   // Semantic validation not handled by joi
   const payload = request.payload as ExternalPostConsentPayload
   const fspiopSource = request.headers[Enum.Http.Headers.FSPIOP.SOURCE]
