@@ -1,6 +1,6 @@
 import { Mapper } from './Mapper';
 import { Scope } from '~/domain/types';
-import { ExternalScope } from '../scopes';
+import { ExternalScope } from '~/interface/types';
 
 
 class ScopeMapper implements Mapper<Array<Scope>> {
@@ -17,8 +17,25 @@ class ScopeMapper implements Mapper<Array<Scope>> {
     return scopes
   }
 
-  toDTO(t: Array<Scope>) {
-    throw new Error("Method not implemented.");
+  toDTO(scopes: Array<Scope>): Array<ExternalScope> {
+    // Dictionary of accountId to ExternalScope object
+    const scopeDictionary = {}
+
+    scopes.forEach((scope: Scope): void => {
+      const accountId: string = scope.accountId
+
+      if (!(accountId in scopeDictionary)) {
+        // @ts-ignore
+        scopeDictionary[accountId] = {
+          accountId,
+          actions: []
+        }
+      }
+      // @ts-ignore
+      scopeDictionary[accountId].actions.push(scope.action)
+    })
+
+    return Object.values(scopeDictionary)
   }
 
   toModel(t: Array<Scope>) {
